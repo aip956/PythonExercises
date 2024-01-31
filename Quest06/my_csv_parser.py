@@ -14,11 +14,19 @@ In this assignment, you will have to determine how to transform a string into an
 '''
 
 def my_csv_parser(array, parser):
-    lines = "column1,column2,column3\nvalue1,value2,value3\n".split("\n")
+    # split into lines
+    lines = array.split("\n")
     print(lines)
 
-    var index = 0
+    # parse into columns
+    result = [line.split(parser) for line in lines]
 
-    while (index < lines.length) {
-    var values = lines[index].split(',');
-    }
+    # remove last \n
+    if result[-1] == ['']:
+        result.pop()
+
+    return result
+
+
+print(my_csv_parser("a,b,c,e\n1,2,3,4\n", ","))
+    
