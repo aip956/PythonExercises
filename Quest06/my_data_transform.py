@@ -5,7 +5,9 @@ my_data_transform.py
 
 def my_data_transform(data):
     lines = data.split("\n")
-    print(lines)
+    header = lines[0]
+    result = header.split(",")
+    print(header)
 
     result = [line.split(',') for line in lines]
     
