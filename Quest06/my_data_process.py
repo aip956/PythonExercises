@@ -28,4 +28,9 @@ def my_data_process(data):
             continue
 
         for col, value in zip(header, row):
-            
+            if value not in result[col]:
+                result[col][value] = 1
+            else:
+                result[col][value] += 1
+    return json.dumps(result, indent = 2)
+
