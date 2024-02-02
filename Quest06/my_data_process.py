@@ -8,3 +8,24 @@ We will discard the column FirstName, LastName, UserName and Coffee Quantity fro
 
 
 '''
+
+import json
+def my_data_process(data):
+    lines = data.split("\n")
+    header = lines[0].split(",")
+    result = {}
+
+    for col in header:
+        result[col] = {}
+
+    for line in lines[1:]:
+        if not line:
+            continue
+        row = line.split(",")
+        print("row: ", row)
+
+        if len(row) < len(header):
+            continue
+
+        for col, value in zip(header, row):
+            
