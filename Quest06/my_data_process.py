@@ -16,14 +16,18 @@ def my_data_process(data):
 
     lines = data_string.split("\n")
     header = lines[0].split(",")
-    result = {}
-
     # Columns to exclude
     exclude_columns = ["FirstName","LastName","UserName","Coffee Quantity"]
+    
+    # Exclude columns from header
+    header = [col for col in header if col not in exclude_columns]
+    print(header)
+    result = {}
+    
     for col in header:
-        if col not in exclude_columns:
-            result[col] = {}
-
+        result[col] = {}
+    print("29result: ", result)
+    
     for line in lines[1:]:
         if not line:
             continue
@@ -34,12 +38,11 @@ def my_data_process(data):
             continue
 
         for i, col in enumerate(header):
-            if col not in exclude_columns:
-                value = row[i]
-                if value not in result[col]:
+            value = row[i]
+            if value not in result[col]:
                     result[col][value] = 1
-                else:
-                    result[col][value] += 1
+            else:
+                result[col][value] += 1
     # Convert to json
     json_result = json.dumps(result, indent = 2)   
 

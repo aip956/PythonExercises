@@ -18,13 +18,17 @@ if sorted list == sorted, descending, flag = 1
 
 ASC = '''
 
-def my_is_sort(list):
-    isSorted = False
-    if list == sorted(list):
-        isSorted = True
-    if list == sorted(list, reverse = True):
-        isSorted = True
-    return isSorted
+def my_is_sort(array):
+    return sorted(array) == array or sorted(array, reverse=True) == array
+
+
+# def my_is_sort(list):
+#     isSorted = False
+#     if list == sorted(list):
+#         isSorted = True
+#     if list == sorted(list, reverse = True):
+#         isSorted = True
+#     return isSorted
     
 print(my_is_sort([1, 1, 2]))
 print(my_is_sort([2, 1, -1]))
