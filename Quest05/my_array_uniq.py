@@ -10,12 +10,19 @@ for each element, if not in output
 add to output
 '''
 
-def my_array_uniq(input):
-    output = []
-    for element in input:
-        if element not in output:
-            output.append(element)
-    return output
+# def my_array_uniq(input):
+#     output = []
+#     for element in input:
+#         if element not in output:
+#             output.append(element)
+#     return output
+
+# Create a set
+def my_array_uniq(array):
+    array_set = set()
+    for element in array:
+        array_set.add(element)
+    return array_set
 
 # print(my_array_uniq([1, 1, 2]))
 # print(my_array_uniq([]))
