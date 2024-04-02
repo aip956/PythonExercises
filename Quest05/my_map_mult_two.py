@@ -9,13 +9,18 @@ Perform a multiplication by 2 on each value and return the new array collected.
 """
 def my_map_mult_two(param_1):
 '''
+#  Mult by 2 in place
+def my_map_mult_two(array):
+    for i in range (len(array)):
+        array[i] *= 2
+    return array
 
-def my_map_mult_two(param):
-    return param * 2
+# def my_map_mult_two(param):
+#     return param * 2
 
-array = [1, 2, 3, 4, 5]
-result = map(my_map_mult_two, array)
-print(list(result))
-array2 = []
-result2 = map(my_map_mult_two, array2)
-print(list(result2))
+# array = [1, 2, 3, 4, 5]
+# result = map(my_map_mult_two, array)
+# print(list(result))
+# array2 = []
+# result2 = map(my_map_mult_two, array2)
+# print(list(result2))
