@@ -11,9 +11,15 @@ def my_count_on_it(param_1):
 length (string).split()
     '''
 
-def my_count_on_it(string):
-    return [sum(c.isalnum() or c.isspace() for c in string)]
+# def my_count_on_it(string):
+#     return [sum(c.isalnum() or c.isspace() for c in string)]
 
+# Return an array of the word lengths
+def my_count_on_it(array):
+    lengths = []
+    for word in array:
+        lengths.append(len(word))
+    return lengths
 
 result = [length for sublist in map(my_count_on_it, ["This", "is", "the", "way"]) for length in sublist]
 result2 = [length for sublist in map(my_count_on_it, ["aBc", "AbcE Fgef1"]) for length in sublist]
