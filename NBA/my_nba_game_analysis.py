@@ -1,41 +1,44 @@
-
-
-
-fields = []
-rows = []
+import csv
+import re
 
 def load_data(filename):
+    result = []
     with open(filename, 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
+        csvreader = csv.reader(csvfile, delimiter='|')
 
-        fields = next(csvreader)
-
+        
         for row in csvreader:
-            rows.append(row)
+            result.append(row)
 
+    return result
 
 def analyse_nba_game(play_by_play_moves):
+    result = {"home_team": {"name": "", "players_data": []}, "away_team": {"name": "otherteam", "players_data": []}}
+}
     for play in play_by_play_moves:
-        print(play)
+        current_team = play[2]
+        current_action = play[7]
+
+        three_pts_regexp = re.compile(r'(.*) makes 3-pt jump shot from')
+        data = three_pts_regexp.search(current_action)
+        print(current_action)
+        print(data[1])
+        result[]
+        # print(current_team)
+        # print(current_action)
         break
 
 def _main():
-    play_by_play_moves = load_data()
+    play_by_play_moves = load_data("data_light.txt")
     analyse_nba_game(play_by_play_moves)
 
-
+_main()
 
 
 
 
     
 
-play_by_play_moves = [
-"1|708.00|GOLDEN_STATE_WARRIORS|OKLAHOMA_CITY_THUNDER|GOLDEN_STATE_WARRIORS|0|0|Turnover by K. Thompson (bad pass; steal by S. Adams)",
-"1|703.00|OKLAHOMA_CITY_THUNDER|OKLAHOMA_CITY_THUNDER|GOLDEN_STATE_WARRIORS|0|0|Turnover by P. George (bad pass)",
-"1|691.00|GOLDEN_STATE_WARRIORS|OKLAHOMA_CITY_THUNDER|GOLDEN_STATE_WARRIORS|0|3|S. Curry makes 3-pt jump shot from 24 ft (assist by K. Durant)",
-"1|673.00|OKLAHOMA_CITY_THUNDER|OKLAHOMA_CITY_THUNDER|GOLDEN_STATE_WARRIORS|0|3|S. Adams misses 2-pt jump shot from 12 ft"
-]
 
 
 '''
