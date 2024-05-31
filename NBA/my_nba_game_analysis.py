@@ -12,18 +12,28 @@ def load_data(filename):
 
     return result
 
+def is_away_team(away_team, current_team):
+    return away_team == current_team
+
 def analyse_nba_game(play_by_play_moves):
     result = {"home_team": {"name": "", "players_data": []}, "away_team": {"name": "otherteam", "players_data": []}}
-}
+
     for play in play_by_play_moves:
         current_team = play[2]
+        home_team = play[3]
+        away_team = play[4]
         current_action = play[7]
 
         three_pts_regexp = re.compile(r'(.*) makes 3-pt jump shot from')
         data = three_pts_regexp.search(current_action)
+        player_name = data[1]
         print(current_action)
         print(data[1])
-        result[]
+        if is_away_team(away_team, current_team):
+            result["away_team"]["players_data"][player_name]['3P'] += 1
+        else:
+            result["home_team"]["players_data"][player_name]['3P'] += 1
+
         # print(current_team)
         # print(current_action)
         break
