@@ -1,6 +1,31 @@
 
 
+
+fields = []
+rows = []
+
+def load_data(filename):
+    with open(filename, 'r') as csvfile:
+        csvreader = csv.reader(csvfile)
+
+        fields = next(csvreader)
+
+        for row in csvreader:
+            rows.append(row)
+
+
 def analyse_nba_game(play_by_play_moves):
+    for play in play_by_play_moves:
+        print(play)
+        break
+
+def _main():
+    play_by_play_moves = load_data()
+    analyse_nba_game(play_by_play_moves)
+
+
+
+
 
 
     
