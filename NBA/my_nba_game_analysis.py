@@ -5,19 +5,81 @@ def load_data(filename):
     result = []
     with open(filename, 'r') as csvfile:
         csvreader = csv.reader(csvfile, delimiter='|')
-
-        
         for row in csvreader:
             result.append(row)
-
     return result
 
 def is_away_team(away_team, current_team):
     return away_team == current_team
 
+def update_stats(player_stats, description):
+    if "makes" in description:
+        if "3-pt" in description:
+            player_stats["3P"] += 1
+            player_stats["3PA"] += 1
+            player_stats["PTS"] += 3
+        elif "2-pt" in description:
+            player_stats["FG"] += 1
+            player_stats["FGA"] += 1
+            player_stats["PTS"] += 2
+        elif "free throw" in description:
+            player_stats["FT"] += 1
+            player_stats["FTA"] += 1
+            player_stats["PTS"] += 1
+        elif "misses" in description:
+            if "3-pt" in description:
+                player_stats["3PA"] += 1
+            elif "2-pt" in description:
+                player_stats["FGA"] += 1
+            elif "free throw" in description:
+                player_stats["FTA"] += 1
+        elif "rebound" in description:
+            if "Offensive" in description:
+                player_stats["ORB"] += 1
+            else:
+                player_stats["DRB"] += 1
+            player_stats["TRB"] += 1
+        elif "assist" in description:
+            player_stats["AST"] += 1
+        elif "steal" in description:
+            player_stats["STL"] += 1
+        elif "block" in description:
+            player_stats["BLK"] += 1
+        elif "Turnover" in description:
+            player_stats["TOV"] += 1
+        elif "foul" in description:
+            player_stats["PF"] += 1
+    print(player_stats)
+
+    # def calculate_percentages(player_stats):
+
+
+
+
+
+
+
+
 def analyse_nba_game(play_by_play_moves):
     result = {"home_team": {"name": "", "players_data": []}, "away_team": {"name": "otherteam", "players_data": []}}
 
+    # Regular expressions for extracting player names
+    patterns = {
+        "makes_3pt": re.compile(r'(.*) makes 3-pt jump shot from'),
+        "makes_2pt": re.compile(r'(.*) makes 2-pt jump shot from'),
+        "makes_ft": re.compile(r'(.*) makes free throw'),
+        "misses_3pt": re.compile(r'(.*) misses 3-pt jump shot from'),
+        "misses_2pt": re.compile(r'(.*) misses 2-pt jump shot from'),
+        "misses_ft": re.compile(r'(.*) misses free throw'),
+        "off_rebound": re.compile(r'Offensive rebound by (.*)'),
+        "def_rebound": re.compile(r'Defensive rebound by (.*)'),
+        "assist": re.compile(r'Assist by (.*)'),
+        "steal": re.compile(r'Steal by (.*)'),
+        "block": re.compile(r'Block by (.*)'),
+        "turnover": re.compile(r'Turnover by (.*)'),
+        "foul": re.compile(r'Foul by (.*)'),
+    }
+    
     for play in play_by_play_moves:
         current_team = play[2]
         home_team = play[3]
