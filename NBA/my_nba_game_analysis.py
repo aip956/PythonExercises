@@ -79,8 +79,31 @@ def analyse_nba_game(play_by_play_moves):
         "turnover": re.compile(r'Turnover by (.*)'),
         "foul": re.compile(r'Foul by (.*)'),
     }
-    
+
     for play in play_by_play_moves:
+        period, remaining_sec, current_team, away_team, home_team, away_score, home_score, current_action = play
+
+        if not result["home_team"]["name"]:
+            result["home_team"]["name"] = home_team
+        if not result["away_team"]["name"]:
+            result["away_team"]["name"] = away_team
+
+        team_key = "home_team" if current_team == home_team else "away_team"
+
+        player_name = None
+        for key, pattern in patterns.items():
+            match = pattern.search(current_action)
+            if match:
+                player_name = match.group(1).strip()
+                break
+        if not player_name:
+            continue
+
+        if player_name not in result[team_key]["players_data"]:
+            result[team_key]["players_data"][player_name] = {
+                "player_name": player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0
+            }
+
         current_team = play[2]
         home_team = play[3]
         away_team = play[4]
