@@ -62,20 +62,21 @@ def analyse_nba_game(play_by_play_moves):
 
     # Regular expressions for extracting player names
     patterns = {
-        "makes_3pt": re.compile(r'(.*) makes 3-pt jump shot from'),
-        
-        "makes_2pt": re.compile(r'(.*) makes 2-pt jump shot from'),
-        "makes_ft": re.compile(r'(.*) makes free throw'),
-        "misses_3pt": re.compile(r'(.*) misses 3-pt jump shot from'),
-        "misses_2pt": re.compile(r'(.*) misses 2-pt jump shot from'),
-        "misses_ft": re.compile(r'(.*) misses free throw'),
+        "makes_3pt": re.compile(r'^(.*) makes 3-pt jump shot from'),
+        "makes_2pt": re.compile(r'^(.*) makes 2-pt jump shot from'),
+        "makes_ft": re.compile(r'^(.*) makes free throw'),
+        "misses_3pt": re.compile(r'^(.*) misses 3-pt jump shot from'),
+        "misses_2pt": re.compile(r'^(.*) misses 2-pt jump shot from'),
+        "misses_ft": re.compile(r'^(.*) misses free throw'),
         "off_rebound": re.compile(r'Offensive rebound by (.*)'),
         "def_rebound": re.compile(r'Defensive rebound by (.*)'),
         "assist": re.compile(r'\(assist by (.*)\)'),
-        "steal": re.compile(r'\(steal by (.*)\)'),
+        "steal": re.compile(r'steal by (.*)\)'),
         "block": re.compile(r'\(block by (.*)\)'),
-        "turnover": re.compile(r'\(turnover by (.*)\)'),
-        "foul": re.compile(r'\(shooting foul by (.*)\)'),
+        # "turnover": re.compile(r'Turnover by (.*)'),
+        "turnover": re.compile(r'Turnover by (.*) \(bad pass; steal by (.*)\)'),  # Updated to capture both players
+
+        "foul": re.compile(r'Shooting foul by (.*)'),
         "drawn_foul": re.compile(r'\(drawn by (.*)\)')
     }
 
@@ -89,6 +90,31 @@ def analyse_nba_game(play_by_play_moves):
 
         team_key = "home_team" if current_team == home_team else "away_team"
 
+        # Special case for turnovers involving steals
+        turnover_match = patterns["turnover"].search(current_action)
+        if turnover_match:
+            turnover_player_name = turnover_match.group(1).strip()
+            steal_player_name = turnover_match.group(2).strip()
+        
+            #Update turnover player stats
+            if turnover_player_name not in result[team_key]["players_data"]:
+                result[team_key]["players_data"][turnover_player_name] = {
+                                    "player_name": turnover_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+                }
+            result[team_key]["players_data"][turnover_player_name]["TOV"] += 1
+
+            # Determine the correct team key for the steal player
+            steal_team_key = "away_team" if team_key == "home_team" else "home_team"
+
+            # Update steal player stats
+            if steal_player_name not in result[steal_team_key]["players_data"]:
+                result[steal_team_key]["players_data"][steal_player_name] = {
+                                    "player_name": steal_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+                }
+            result[steal_team_key]["players_data"][steal_player_name]["STL"] += 1
+            continue # Skip to the next play
+
+        # Regular player action parsting    
         player_name = None
         for key, pattern in patterns.items():
             match = pattern.search(current_action)
@@ -104,17 +130,52 @@ def analyse_nba_game(play_by_play_moves):
             }
         update_stats(result[team_key]["players_data"][player_name], current_action)
 
+        # # Steal by
+        # if "Turnover by" in current_action and "steal by" in current_action:
+        #     turnover_match = patterns["turnover"].search(current_action)
+        #     steal_match = patterns["steal"].search(current_action)
+        #     if turnover_match and steal_match:
+        #         turnover_player_name = turnover_match.group(1).strip()
+        #         steal_player_name = steal_match.group(1).strip()
+
+        #         #Update turnover player stats
+        #         if turnover_player_name not in result[team_key]["players_data"]:
+        #             result[team_key]["players_data"][turnover_player_name] = {
+        #                 "player_name": turnover_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+        #             }
+        #         result[team_key]["players_data"][turnover_player_name]["TOV"] += 1
+
+        #         #Determine the team key for the steal player
+        #         steal_team_key = "away_team" if team_key == "home_team" else "home_team"
+
+        #         #Update steal player stats
+        #         if steal_player_name not in result[steal_team_key]["players_data"]:
+        #             result[steal_team_key]["players_data"][steal_player_name] = {
+        #                 "player_name": steal_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+        #             }
+        #         result[steal_team_key]["players_data"][steal_player_name]["STL"] += 1
+
         # Drawn by foul
         if "drawn by" in current_action:
             match = patterns["drawn_foul"].search(current_action)
             if match:
                 drawn_player_name = match.group(1).strip()
-                drawn_team_key = "home_team" if current_team != home_team else "away_team"
-                if drawn_player_name not in result[drawn_team_key]["players_data"]:
-                    result[drawn_team_key]["players_data"][drawn_player_name] = {
+                if drawn_player_name not in result[team_key]["players_data"]:
+                    result[team_key]["players_data"][drawn_player_name] = {
                         "player_name": drawn_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
                     }
-                update_stats(result[drawn_team_key]["players_data"][drawn_player_name], "drawn fould")
+                
+
+                # Determine the team key of player who committed the foul
+                committing_team_key = "away_team" if current_team == home_team else "home_team"
+                committing_player_name_match = patterns["foul"].search(current_action)
+                if committing_player_name_match:
+                    committing_player_name = committing_player_name_match.group(1).strip()  
+                    if committing_player_name not in result[committing_team_key]["players_data"]:
+                        result[committing_team_key]["players_data"][committing_player_name] = {
+                        "player_name": committing_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+                    }
+                result[committing_team_key]["players_data"][committing_player_name]["PF"] += 1
 
     for team in ["home_team", "away_team"]:
         for player_stats in result[team]["players_data"].values():
@@ -126,7 +187,7 @@ def analyse_nba_game(play_by_play_moves):
 
 
 def _main():
-    play_by_play_moves = load_data("data_light.txt")
+    play_by_play_moves = load_data("sample.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
