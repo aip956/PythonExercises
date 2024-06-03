@@ -1,5 +1,6 @@
 import csv
 import re
+import json
 
 def load_data(filename):
     result = []
@@ -74,7 +75,8 @@ def analyse_nba_game(play_by_play_moves):
         "steal": re.compile(r'steal by (.*)\)'),
         "block": re.compile(r'\(block by (.*)\)'),
         # "turnover": re.compile(r'Turnover by (.*)'),
-        "turnover": re.compile(r'Turnover by (.*) \(bad pass; steal by (.*)\)'),  # Updated to capture both players
+        # "turnover": re.compile(r'Turnover by (.*) \(bad pass; steal by (.*)\)'),  # Updated to capture both players
+        "turnover": re.compile(r'Turnover by (.*?) \(bad pass; steal by (.*?)\)'),
 
         "foul": re.compile(r'Shooting foul by (.*)'),
         "drawn_foul": re.compile(r'\(drawn by (.*)\)')
@@ -99,7 +101,7 @@ def analyse_nba_game(play_by_play_moves):
             #Update turnover player stats
             if turnover_player_name not in result[team_key]["players_data"]:
                 result[team_key]["players_data"][turnover_player_name] = {
-                                    "player_name": turnover_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+                    "player_name": turnover_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
                 }
             result[team_key]["players_data"][turnover_player_name]["TOV"] += 1
 
@@ -109,7 +111,7 @@ def analyse_nba_game(play_by_play_moves):
             # Update steal player stats
             if steal_player_name not in result[steal_team_key]["players_data"]:
                 result[steal_team_key]["players_data"][steal_player_name] = {
-                                    "player_name": steal_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+                    "player_name": steal_player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
                 }
             result[steal_team_key]["players_data"][steal_player_name]["STL"] += 1
             continue # Skip to the next play
@@ -119,7 +121,7 @@ def analyse_nba_game(play_by_play_moves):
         for key, pattern in patterns.items():
             match = pattern.search(current_action)
             if match:
-                player_name = match.group(1).strip()
+                player_name = match.group(1).split(" (")[0].strip() # Extract only player name
                 break
         if not player_name:
             continue
