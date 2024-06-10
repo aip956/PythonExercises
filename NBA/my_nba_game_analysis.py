@@ -82,10 +82,8 @@ def analyse_nba_game(play_by_play_moves):
         "assist": re.compile(r'\(assist by (.*)\)'),
         "steal": re.compile(r'steal by (.*)\)'),
         "block": re.compile(r'\(block by (.*)\)'),
-        # "turnover": re.compile(r'Turnover by (.*)'),
-        # "turnover": re.compile(r'Turnover by (.*) \(bad pass; steal by (.*)\)'),  # Updated to capture both players
         "turnover": re.compile(r'Turnover by (.*?) \(bad pass; steal by (.*?)\)'),
-
+        "simple_turnover": re.compile(r'Turnover by (.*)'),
         "foul": re.compile(r'Shooting foul by (.*)'),
         "drawn_foul": re.compile(r'\(drawn by (.*)\)')
     }
@@ -119,6 +117,14 @@ def analyse_nba_game(play_by_play_moves):
                 result[steal_team_key]["players_data"][steal_player_name] = initialize_player_stats(steal_player_name)
             result[steal_team_key]["players_data"][steal_player_name]["STL"] += 1
             continue # Skip to the next play
+        # Simple turnover
+        simple_turnover_match = patterns["simple_turnover"].search(current_action)
+        if simple_turnover_match:
+            turnover_player_name = simple_turnover_match.group(1).strip()
+            if turnover_player_name not in result[team_key]["players_data"]:
+                result[team_key]["players_data"][turnover_player_name] = initialize_player_stats(turnover_player_name)
+            result[team_key]["players_data"][turnover_player_name]["TOV"] += 1
+
 
         # Regular player action parsting    
         player_name = None
