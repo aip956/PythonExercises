@@ -68,7 +68,7 @@ def initialize_player_stats(player_name):
 
 def analyse_nba_game(play_by_play_moves):
     result = {"home_team": {"name": "", "players_data": {}}, "away_team": {"name": "", "players_data": {}}}
-
+    print("71result: ", result)
     # Regular expressions for extracting player names
     patterns = {
         "makes_3pt": re.compile(r'^(.*) makes 3-pt'),
@@ -100,7 +100,7 @@ def analyse_nba_game(play_by_play_moves):
             result["away_team"]["name"] = away_team
 
         team_key = "home_team" if current_team == home_team else "away_team"
-
+        print("103result: ", result)
         # Special case for turnovers involving steals
         turnover_match = patterns["turnover"].search(current_action)
         if turnover_match:
@@ -176,17 +176,15 @@ def analyse_nba_game(play_by_play_moves):
         # Drawn by foul
         if "drawn by" in current_action:
             match = patterns["drawn_foul"].search(current_action)
+            print("179result: ", result)
             if match:
                 drawn_player_name = match.group(1).strip().split(" (")[0].strip()
                 print("181drawn_player_name: ", drawn_player_name)
                 print("182team_key: ", team_key)
                 if drawn_player_name not in result[team_key]["players_data"]:
                     result[team_key]["players_data"][drawn_player_name] = initialize_player_stats(drawn_player_name)
-                
+                print("186result: ", result)
                 # Determine the team key of player who committed the foul
-                # committing_team_key = "home_team" if current_team == home_team else "away_team"
-                # print("committing_team_key: ", committing_team_key)
-
                 committing_player_name_match = patterns["foul"].search(current_action)
                 if committing_player_name_match:
                     committing_player_name = committing_player_name_match.group(1).strip().split(" (")[0].strip()
@@ -196,8 +194,11 @@ def analyse_nba_game(play_by_play_moves):
                     else:
                         committing_team_key = "home_team"
                     print("committing_team_key: ", committing_team_key)
+                    print("196result: ", result)
                     if committing_player_name not in result[committing_team_key]["players_data"]:
                         result[committing_team_key]["players_data"][committing_player_name] = initialize_player_stats(committing_player_name)
+                        print("201result: ", result)
+                    print("202result: ", result)
                     result[committing_team_key]["players_data"][committing_player_name]["PF"] += 1
 
     for team in ["home_team", "away_team"]:
