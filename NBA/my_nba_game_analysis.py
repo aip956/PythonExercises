@@ -62,13 +62,15 @@ def calculate_percentages(player_stats):
 
 def initialize_player_stats(player_name):
     return {
-                "player_name": player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, 
+        "player_name": player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, 
         "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
     }
+# def toggle_team_key(team_key):
+#     return "away_team" if team_key == "home_team" else "home_team"
 
 def analyse_nba_game(play_by_play_moves):
     result = {"home_team": {"name": "", "players_data": {}}, "away_team": {"name": "", "players_data": {}}}
-    print("71result: ", result)
+    # print("71result: ", result)
     # Regular expressions for extracting player names
     patterns = {
         "makes_3pt": re.compile(r'^(.*) makes 3-pt'),
@@ -80,27 +82,25 @@ def analyse_nba_game(play_by_play_moves):
         "off_rebound": re.compile(r'Offensive rebound by (.*)'),
         "def_rebound": re.compile(r'Defensive rebound by (.*)'),
         "assist": re.compile(r'\(assist by (.*)\)'),
-        
         "steal": re.compile(r'steal by (.*)\)'),
         "block": re.compile(r'\(block by (.*)\)'),
-        
         "turnover": re.compile(r'Turnover by (.*?) \(bad pass; steal by (.*?)\)'),
         "simple_turnover": re.compile(r'Turnover by (.*?) \('),
-        
         "foul": re.compile(r'Shooting foul by (.*)'),
-        "drawn_foul": re.compile(r'\(drawn by (.*)\)')
+        # "drawn_foul": re.compile(r'\(drawn by (.*)\)')
     }
 
     for play in play_by_play_moves:
         period, remaining_sec, current_team, away_team, home_team, away_score, home_score, current_action = play
-
+        # Update result with home_team name and away_team name
         if not result["home_team"]["name"]:
             result["home_team"]["name"] = home_team
         if not result["away_team"]["name"]:
             result["away_team"]["name"] = away_team
 
         team_key = "home_team" if current_team == home_team else "away_team"
-        print("103result: ", result)
+        # print("100team_key: ", team_key)
+        # print("103result: ", result)
         # Special case for turnovers involving steals
         turnover_match = patterns["turnover"].search(current_action)
         if turnover_match:
@@ -131,6 +131,8 @@ def analyse_nba_game(play_by_play_moves):
             result[team_key]["players_data"][turnover_player_name]["TOV"] += 1
 
 
+
+
         # Regular player action parsting    
         player_name = None
         for key, pattern in patterns.items():
@@ -141,11 +143,23 @@ def analyse_nba_game(play_by_play_moves):
                 break
         if not player_name:
             continue
-        # player_name = player_name.split(" (")[0].strip()
+        
+        # print("143team_key: ", team_key)
+        # print("144player_name: ", player_name)
+        # print("145result: ", result)
+           
+        # Foul by; change the team
+        # print("152current_action: ", current_action)
+        if "foul by" in current_action:
+            team_key = "home_team" if current_team == "away_team" else "home_team"
+        # print("154team_key: ", team_key)
         if player_name not in result[team_key]["players_data"]:
             result[team_key]["players_data"][player_name] = initialize_player_stats(player_name)
         update_stats(result[team_key]["players_data"][player_name], current_action)
 
+        # print("152team_key: ", team_key)
+        # print("153player_name: ", player_name)
+        # print("154result: ", result)
         # Assist handling
         assist_match = patterns["assist"].search(current_action)
         if assist_match:
@@ -172,34 +186,8 @@ def analyse_nba_game(play_by_play_moves):
                 if blocking_player not in result[blocking_team_key]["players_data"]:
                     result[blocking_team_key]["players_data"][blocking_player] = initialize_player_stats(blocking_player)
                 result[blocking_team_key]["players_data"][blocking_player]["BLK"] += 1
-            
-        # Drawn by foul
-        if "drawn by" in current_action:
-            match = patterns["drawn_foul"].search(current_action)
-            print("179result: ", result)
-            if match:
-                drawn_player_name = match.group(1).strip().split(" (")[0].strip()
-                print("181drawn_player_name: ", drawn_player_name)
-                print("182team_key: ", team_key)
-                if drawn_player_name not in result[team_key]["players_data"]:
-                    result[team_key]["players_data"][drawn_player_name] = initialize_player_stats(drawn_player_name)
-                print("186result: ", result)
-                # Determine the team key of player who committed the foul
-                committing_player_name_match = patterns["foul"].search(current_action)
-                if committing_player_name_match:
-                    committing_player_name = committing_player_name_match.group(1).strip().split(" (")[0].strip()
-                    print("192committing_player_name: ", committing_player_name)  
-                    if current_team == "home_team":
-                        committing_team_key = "away_team"
-                    else:
-                        committing_team_key = "home_team"
-                    print("committing_team_key: ", committing_team_key)
-                    print("196result: ", result)
-                    if committing_player_name not in result[committing_team_key]["players_data"]:
-                        result[committing_team_key]["players_data"][committing_player_name] = initialize_player_stats(committing_player_name)
-                        print("201result: ", result)
-                    print("202result: ", result)
-                    result[committing_team_key]["players_data"][committing_player_name]["PF"] += 1
+        # print("173result: ", result)    
+
 
     for team in ["home_team", "away_team"]:
         for player_stats in result[team]["players_data"].values():
@@ -210,7 +198,7 @@ def analyse_nba_game(play_by_play_moves):
 
 
 def _main():
-    play_by_play_moves = load_data("data_light.txt")
+    play_by_play_moves = load_data("sample.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
