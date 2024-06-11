@@ -183,10 +183,52 @@ def analyse_nba_game(play_by_play_moves):
         result[team]["players_data"] = list(result[team]["players_data"].values())
     return result
 
+def print_nba_game_stats(team_dict):
+    header = "Players\tFG\tFGA\tFG%\t3P\t3PA\t3P%\tFT\tFTA\tFT%\tORB\tDRB\tTRB\tAST\tSTL\tBLK\tTOV\tPF\tPTS"
+    print(header)
+
+    total_stats = {
+        "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, 
+        "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
+    }
+
+    for player in team_dict['players_data']:
+        print(f"{player['player_name']}\t{player['FG']}\t{player['FGA']}\t{player['FG%']}\t{player['3P']}\t{player['3PA']}\t{player['3P%']}\t{player['FT']}\t{player['FTA']}\t{player['FT%']}\t{player['ORB']}\t{player['DRB']}\t{player['TRB']}\t{player['AST']}\t{player['STL']}\t{player['BLK']}\t{player['TOV']}\t{player['PF']}\t{player['PTS']}")
+
+        # Update total stats
+        total_stats["FG"] += player["FG"]
+        total_stats["FGA"] += player["FGA"] 
+        total_stats["3P"] += player["3P"]
+        total_stats["3PA"] += player["3PA"]
+        total_stats["FT"] += player["FT"]
+        total_stats["FTA"] += player["FTA"]
+        total_stats["ORB"] += player["ORB"]
+        total_stats["DRB"] += player["DRB"]
+        total_stats["TRB"] += player["TRB"]
+        total_stats["AST"] += player["AST"]
+        total_stats["STL"] += player["STL"]
+        total_stats["BLK"] += player["BLK"]
+        total_stats["TOV"] += player["TOV"]
+        total_stats["PF"] += player["PF"]
+        total_stats["PTS"] += player["BLK"]
+
+    # Calc percentages
+    total_fg_percent = round((total_stats["FG"] / total_stats["FGA"] * 100) if total_stats["FGA"] > 0 else 0, 1)
+    total_3P_percent = round((total_stats["3P"] / total_stats["3PA"] * 100) if total_stats["3PA"] > 0 else 0, 1)
+    total_ft_percent = round((total_stats["FT"] / total_stats["FTA"] * 100) if total_stats["FTA"] > 0 else 0, 1)
+
+    print(f"Totals\t{total_stats['FG']}\t{total_stats['FGA']}\t{total_fg_percent}\t{total_stats['3P']}\t{total_stats['3PA']}\t{total_3P_percent}\t{total_stats['FT']}\t{total_stats['FTA']}\t{total_ft_percent}\t{total_stats['ORB']}\t{total_stats['DRB']}\t{total_stats['TRB']}\t{total_stats['AST']}\t{total_stats['STL']}\t{total_stats['BLK']}\t{total_stats['TOV']}\t{total_stats['PF']}\t{total_stats['PTS']}")
+
 
 def _main():
     play_by_play_moves = load_data("sample.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
+
+    print("\nHome Team Stats:")
+    print_nba_game_stats(game_summary["home_team"])
+
+    print("\nAway Team Stats:")
+    print_nba_game_stats(game_summary["away_team"])
 
 _main()
