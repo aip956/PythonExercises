@@ -42,7 +42,7 @@ def update_stats(player_stats, description):
         player_stats["TRB"] += 1
     elif "assist" in description:
         player_stats["AST"] += 1
-        assisting_player = re.search(r'assist by(.*)\')', description)
+        assisting_player = re.search(r'assist by (.*)\)', description)
         if assisting_player:
             player_stats["AST_PLAYER"] = assisting_player.group(1).strip()
     elif "steal" in description:
@@ -80,11 +80,13 @@ def analyse_nba_game(play_by_play_moves):
         "off_rebound": re.compile(r'Offensive rebound by (.*)'),
         "def_rebound": re.compile(r'Defensive rebound by (.*)'),
         "assist": re.compile(r'\(assist by (.*)\)'),
+        
         "steal": re.compile(r'steal by (.*)\)'),
         "block": re.compile(r'\(block by (.*)\)'),
+        
         "turnover": re.compile(r'Turnover by (.*?) \(bad pass; steal by (.*?)\)'),
         "simple_turnover": re.compile(r'Turnover by (.*?) \('),
-
+        
         "foul": re.compile(r'Shooting foul by (.*)'),
         "drawn_foul": re.compile(r'\(drawn by (.*)\)')
     }
@@ -196,7 +198,7 @@ def analyse_nba_game(play_by_play_moves):
 
 
 def _main():
-    play_by_play_moves = load_data("data_light.txt")
+    play_by_play_moves = load_data("sample.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
