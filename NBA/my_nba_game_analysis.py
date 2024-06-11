@@ -178,16 +178,24 @@ def analyse_nba_game(play_by_play_moves):
             match = patterns["drawn_foul"].search(current_action)
             if match:
                 drawn_player_name = match.group(1).strip().split(" (")[0].strip()
+                print("181drawn_player_name: ", drawn_player_name)
+                print("182team_key: ", team_key)
                 if drawn_player_name not in result[team_key]["players_data"]:
                     result[team_key]["players_data"][drawn_player_name] = initialize_player_stats(drawn_player_name)
                 
-
                 # Determine the team key of player who committed the foul
-                committing_team_key = "away_team" if current_team == home_team else "home_team"
+                # committing_team_key = "home_team" if current_team == home_team else "away_team"
+                # print("committing_team_key: ", committing_team_key)
+
                 committing_player_name_match = patterns["foul"].search(current_action)
                 if committing_player_name_match:
                     committing_player_name = committing_player_name_match.group(1).strip().split(" (")[0].strip()
-                      
+                    print("192committing_player_name: ", committing_player_name)  
+                    if current_team == "home_team":
+                        committing_team_key = "away_team"
+                    else:
+                        committing_team_key = "home_team"
+                    print("committing_team_key: ", committing_team_key)
                     if committing_player_name not in result[committing_team_key]["players_data"]:
                         result[committing_team_key]["players_data"][committing_player_name] = initialize_player_stats(committing_player_name)
                     result[committing_team_key]["players_data"][committing_player_name]["PF"] += 1
@@ -201,7 +209,7 @@ def analyse_nba_game(play_by_play_moves):
 
 
 def _main():
-    play_by_play_moves = load_data("sample.txt")
+    play_by_play_moves = load_data("data_light.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
