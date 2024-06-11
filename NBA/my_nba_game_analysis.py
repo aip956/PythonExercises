@@ -53,7 +53,7 @@ def update_stats(player_stats, description):
         player_stats["TOV"] += 1
     elif "foul" in description:
         player_stats["PF"] += 1
-    # print(player_stats)
+
 
 def calculate_percentages(player_stats):
     player_stats["FG%"] = round((player_stats["FG"] / player_stats["FGA"] * 100) if player_stats["FGA"] > 0 else 0, 1)
@@ -65,12 +65,10 @@ def initialize_player_stats(player_name):
         "player_name": player_name, "FG": 0, "FGA": 0, "FG%": 0, "3P": 0, "3PA": 0, "3P%": 0, "FT": 0, "FTA": 0, "FT%": 0, 
         "ORB": 0, "DRB": 0, "TRB": 0, "AST": 0, "STL": 0, "BLK": 0, "TOV": 0, "PF": 0, "PTS": 0
     }
-# def toggle_team_key(team_key):
-#     return "away_team" if team_key == "home_team" else "home_team"
 
 def analyse_nba_game(play_by_play_moves):
     result = {"home_team": {"name": "", "players_data": {}}, "away_team": {"name": "", "players_data": {}}}
-    # print("71result: ", result)
+
     # Regular expressions for extracting player names
     patterns = {
         "makes_3pt": re.compile(r'^(.*) makes 3-pt'),
@@ -130,9 +128,6 @@ def analyse_nba_game(play_by_play_moves):
                 result[team_key]["players_data"][turnover_player_name] = initialize_player_stats(turnover_player_name)
             result[team_key]["players_data"][turnover_player_name]["TOV"] += 1
 
-
-
-
         # Regular player action parsting    
         player_name = None
         for key, pattern in patterns.items():
@@ -144,22 +139,15 @@ def analyse_nba_game(play_by_play_moves):
         if not player_name:
             continue
         
-        # print("143team_key: ", team_key)
-        # print("144player_name: ", player_name)
-        # print("145result: ", result)
-           
         # Foul by; change the team
-        # print("152current_action: ", current_action)
         if "foul by" in current_action:
             team_key = "home_team" if current_team == "away_team" else "home_team"
-        # print("154team_key: ", team_key)
+
+
         if player_name not in result[team_key]["players_data"]:
             result[team_key]["players_data"][player_name] = initialize_player_stats(player_name)
         update_stats(result[team_key]["players_data"][player_name], current_action)
 
-        # print("152team_key: ", team_key)
-        # print("153player_name: ", player_name)
-        # print("154result: ", result)
         # Assist handling
         assist_match = patterns["assist"].search(current_action)
         if assist_match:
@@ -196,17 +184,9 @@ def analyse_nba_game(play_by_play_moves):
     return result
 
 
-
 def _main():
     play_by_play_moves = load_data("sample.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
 _main()
-
-
-
-
-    
-
-
