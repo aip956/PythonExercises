@@ -136,7 +136,8 @@ def analyse_nba_game(play_by_play_moves):
         for key, pattern in patterns.items():
             match = pattern.search(current_action)
             if match:
-                player_name = match.group(1).split(" (")[0].strip() # Extract only player name
+                # player_name = match.group(1).split(" (")[0].strip() # Extract only player name
+                player_name = match.group(1).strip().split(" (")[0].strip()
                 break
         if not player_name:
             continue
@@ -176,7 +177,7 @@ def analyse_nba_game(play_by_play_moves):
         if "drawn by" in current_action:
             match = patterns["drawn_foul"].search(current_action)
             if match:
-                drawn_player_name = match.group(1).strip()
+                drawn_player_name = match.group(1).strip().split(" (")[0].strip()
                 if drawn_player_name not in result[team_key]["players_data"]:
                     result[team_key]["players_data"][drawn_player_name] = initialize_player_stats(drawn_player_name)
                 
@@ -186,8 +187,7 @@ def analyse_nba_game(play_by_play_moves):
                 committing_player_name_match = patterns["foul"].search(current_action)
                 if committing_player_name_match:
                     committing_player_name = committing_player_name_match.group(1).strip().split(" (")[0].strip()
-                    # committing_player_name = committing_player_name.strip().split(" (")[0].strip()
-                     
+                      
                     if committing_player_name not in result[committing_team_key]["players_data"]:
                         result[committing_team_key]["players_data"][committing_player_name] = initialize_player_stats(committing_player_name)
                     result[committing_team_key]["players_data"][committing_player_name]["PF"] += 1
