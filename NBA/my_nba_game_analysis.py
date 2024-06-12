@@ -193,6 +193,7 @@ def print_nba_game_stats(team_dict):
     }
 
     for player in team_dict['players_data']:
+        # print(f"DEBUG: {player}")
         print(f"{player['player_name']}\t{player['FG']}\t{player['FGA']}\t{player['FG%']}\t{player['3P']}\t{player['3PA']}\t{player['3P%']}\t{player['FT']}\t{player['FTA']}\t{player['FT%']}\t{player['ORB']}\t{player['DRB']}\t{player['TRB']}\t{player['AST']}\t{player['STL']}\t{player['BLK']}\t{player['TOV']}\t{player['PF']}\t{player['PTS']}")
 
         # Update total stats
@@ -210,7 +211,7 @@ def print_nba_game_stats(team_dict):
         total_stats["BLK"] += player["BLK"]
         total_stats["TOV"] += player["TOV"]
         total_stats["PF"] += player["PF"]
-        total_stats["PTS"] += player["BLK"]
+        total_stats["PTS"] += player["PTS"]
 
     # Calc percentages
     total_fg_percent = round((total_stats["FG"] / total_stats["FGA"] * 100) if total_stats["FGA"] > 0 else 0, 1)
@@ -221,7 +222,7 @@ def print_nba_game_stats(team_dict):
 
 
 def _main():
-    play_by_play_moves = load_data("sample.txt")
+    play_by_play_moves = load_data("nba_game_warriors_thunder.txt")
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
