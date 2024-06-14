@@ -1,6 +1,7 @@
 import csv
 import re
 import json
+import argparse
 
 def load_data(filename):
     result = []
@@ -220,7 +221,12 @@ def print_nba_game_stats(team_dict):
 
 
 def _main():
-    play_by_play_moves = load_data("nba_game_warriors_thunder.txt")
+    parser = argparse.ArgumentParser(description="Analyze NBA game from play-by-play data")
+    parser.add_argument('filename', type=str, help='The file containing the data')
+    args = parser.parse_args()
+# "nba_game_warriors_thunder.txt"
+
+    play_by_play_moves = load_data(args.filename)
     game_summary = analyse_nba_game(play_by_play_moves)
     print("Game Summ: ", game_summary)
 
@@ -230,4 +236,7 @@ def _main():
     print("\nAway Team Stats:")
     print_nba_game_stats(game_summary["away_team"])
 
-_main()
+if __name__=="__main__":    
+    _main()
+
+# python3 my_nba_game_analysis.py nba_game_warriors_thunder.txt

@@ -88,7 +88,12 @@ First prints a header
 For each player in the data, iterates over the player statistics and prints them
 Keeps a total_stats for each event, and then prints the totals
 
-
+_main
+Loads the data
+Analyzes the game
+prints the array summary
+prints Home Team Stats in tabular format
+prints Away Team Stats in tablular format
 
 
 
@@ -96,13 +101,17 @@ Keeps a total_stats for each event, and then prints the totals
 
 ## Installation
 Install Python 3 to your system
-Data .txt file; edit line 225 with the data file in parentheses
-play_by_play_moves = load_data("nba_game_warriors_thunder.txt")
-To run, in the terminal type: python3 my_nba_game_analysis.py
+The Data .txt file in the same directory as my_nba_game_analysis.py
+In the command line, type: python3 my_nba_game_analysis.py data.txt
+
+For example, my data file is nba_game_warriors_thunder.txt:
+python3 my_nba_game_analysis.py nba_game_warriors_thunder.txt
+
 
 
 ## Usage
-The code will iterate through each line/play array
+The code will analyze a game of basketball's play-by-play data.
+It will print the summary array, then print in table format.
 
 ```
 
