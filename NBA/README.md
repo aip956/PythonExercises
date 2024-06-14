@@ -49,9 +49,45 @@ Some of the statistics collection is tricky. In the example below, the home team
 1|401.0|GOLDEN_STATE_WARRIORS|OKLAHOMA_CITY_THUNDER|GOLDEN_STATE_WARRIORS|11|16|Personal foul by T. Ferguson (drawn by K. Durant)
 
 The print method:
+Prints the data in tabular format
+
+
+
+
+The code functions:
+load_data
+Initializes Result List
+Opens CSV file
+Reads rows
+Returns result
+
+is_away_team
+Checks if the current team is the away team
+
+update_stats
+Checks for Scoring Plays and Events (missed shots, fouls, rebounds, etc.)
+
+calculate_percentages
+Calculates the percentages for field goals, 3-points, free throws
+
+initialize_player_stats
+Initializes a player's stats (when they are not in the results yet)
+
+analyse_nba_game
+Initializes result dictionary
+Define Regex Patterns ("patterns")
+Iterates over each play, 
+Determines and updates the team name
+Determines team_key (team the player's stats will be assigned to)
+Updates Turnovers and Steals
+Determines player
+Updates fouls, assists, blocks (these plays will be combined with another play found in the update_stats)
+
+print_nba_game_stats
 First prints a header
 For each player in the data, iterates over the player statistics and prints them
-Keeps a tota_statistics for each event, and then prints the totals
+Keeps a total_stats for each event, and then prints the totals
+
 
 
 
@@ -59,12 +95,15 @@ Keeps a tota_statistics for each event, and then prints the totals
 
 
 ## Installation
-TODO - How to install your project? npm install? make? make re?
+Install Python 3 to your system
+Data .txt file; edit line 225 with the data file in parentheses
+play_by_play_moves = load_data("nba_game_warriors_thunder.txt")
+To run, in the terminal type: python3 my_nba_game_analysis.py
+
 
 ## Usage
-TODO - How does it work?
-```
-./my_project argument1 argument2
+The code will iterate through each line/play array
+
 ```
 
 ### The Core Team

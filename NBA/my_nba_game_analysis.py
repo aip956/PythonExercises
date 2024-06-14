@@ -97,9 +97,7 @@ def analyse_nba_game(play_by_play_moves):
             result["away_team"]["name"] = away_team
 
         team_key = "home_team" if current_team == home_team else "away_team"
-        # print("100team_key: ", team_key)
-        # print("103result: ", result)
-        # Special case for turnovers involving steals
+
         turnover_match = patterns["turnover"].search(current_action)
         if turnover_match:
             turnover_player_name = turnover_match.group(1).strip()
