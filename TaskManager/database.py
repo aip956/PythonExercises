@@ -2,7 +2,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:local@db:localhost/taskmanager")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:local@db:5432/taskmanager")
 # pwd = local; username = postgres
 
 engine = create_engine(DATABASE_URL)

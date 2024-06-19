@@ -1,32 +1,30 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: local
-      POSTGRES_DB: taskmanager
-    ports:
-      - "5432:5432"
-
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5673:5672"
+      - "15673:15672"
     environment:
       RABBITMQ_DEFAULT_USER: rabbitmq
       RABBITMQ_DEFAULT_PASS: local
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 
   web:
     build: .
     depends_on:
-      - db
-      - rabbitmq
+      # - db
+      rabbitmq:
+        condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://postgres:local@db:localhost/taskmanager"
+      # DATABASE_URL: "postgresql://postgres:local@db:5432/taskmanager"
       RABBITMQ_URL: "amqp://rabbitmq:local@rabbitmq:5672"
     ports:
       - "8000:8000"
-    command: python manage.py runserver
+    # command: python manage.py runserver

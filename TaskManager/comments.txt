@@ -1,0 +1,8 @@
+  # db:
+  #   image: postgres:13
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: local
+  #     POSTGRES_DB: taskmanager
+  #   ports:
+  #     - "5432:5432"
