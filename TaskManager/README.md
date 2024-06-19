@@ -8,3 +8,10 @@ Install packages:
 pip install fastapi uvicorn psycopg2-binary sqlalchemy pika
 
 
+kafka you have to add priority, faster
+Rabbit includes it
+should try to write own priority
+run server
+download package, bin/startzookeeper server, start kafka server
+docker: add api
+2 yml files; one for kafka, one for api
