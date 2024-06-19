@@ -1,8 +1,10 @@
+import os
 import pika
 
-RABBITMQ_URL = 'amqp://guest:guest@localhost/'
+RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://guest:guest@localhost/")
 
-connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_URL))
+params = pika.URLParameters(RABBITMQ_URL)
+connection = pika.BlockingConnection(params)
 channel = connection.channel()
 
 channel.queue_declare(queue='task_notifications')
