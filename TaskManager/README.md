@@ -26,7 +26,8 @@ With rabbit server running, can go to RabbitMQ ManagementUI:
 URL: http://localhost:15673
 Username: rabbitmq
 Password: local
-Check Connections tab; it should shows
+Check Connections tab; it should show connection running
+
 
 
 kafka you have to add priority, faster
