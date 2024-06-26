@@ -25,7 +25,22 @@
 
 ####
 
+## Prerequisites
+
+**Docker**:
+
+- Docker Engine: For installation instructions, refer to the Docker documentation: https://docs.docker.com/engine/install/
 
 ## Installation
+
+1. **Build the Docker Image**:
+   ```bash
+   docker-compose build 
+    ```
+3. **Run the API**:
+   ```bash
+   docker-compose up -d
+   ```
+
 
 ## Usage
