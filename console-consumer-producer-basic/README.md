@@ -1,5 +1,26 @@
 https://developer.confluent.io/tutorials/kafka-console-consumer-producer-basics/kafka.html
 
+Summary: Kafka with Docker Container
+This tutorial demonstrates how to set up and use Kafka within a Docker container. It covers the following key steps:
+
+Setup Kafka in Docker:
+
+Create a docker-compose.yml file for the Confluent Platform.
+Launch the platform using Docker Compose.
+Create Kafka Topic:
+
+Use the Kafka command-line tools to create a topic named orders.
+Run Kafka Producer and Consumer:
+
+Open a terminal for the Kafka producer and another for the Kafka consumer.
+Produce messages from the producer terminal and observe them being consumed in the consumer terminal.
+Enable Key-Value Parsing:
+
+Restart the producer with properties to parse keys and values.
+Produce key-value pairs and observe the formatted output in the consumer terminal.
+By following these steps, you can effectively use Kafka to produce and consume messages, including key-value pairs, all within Docker containers.
+
+
 Prerequisites
 1
 This tutorial installs Confluent Platform using Docker. Before proceeding:
