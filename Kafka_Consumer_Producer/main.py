@@ -8,6 +8,8 @@ app = FastAPI()
 loop = asyncio.get_event_loop()
 producer = AIOKafkaProducer(loop=loop, bootstrap_servers='localhost:9092')
 
+consumed_messages = []
+
 @app.on_event("startup")
 async def on_startup():
     await producer.start()
@@ -30,14 +32,25 @@ async def consume():
     await consumer.start()
     try:
         async for msg in consumer:
+            message = msg.value.decode('utf-8')
+            consumed_messages.append(message)
             print("consumed: ", msg.value.decode('utf-8'))
     finally:
         await consumer.stop()
 
-@app.on_event("startup")
-async def start_consumer():
+def start_consumer_task():
     background_tasks = BackgroundTasks()
     background_tasks.add_task(consume)
+    return background_tasks
+
+@app.on_event("startup")
+async def startup_event():
+    start_consumer_task()
+    
+
+@app.get("/messages")
+def get_messages():
+    return {"messages": consumed_messages}
 
 if __name__ == "__main__":
     import uvicorn
