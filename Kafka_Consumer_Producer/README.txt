@@ -35,3 +35,6 @@ docker-compose stop
 Remove containers:
 docker-compose down
 
+
+Make a branch
+Commit
