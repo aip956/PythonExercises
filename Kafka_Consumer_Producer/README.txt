@@ -16,9 +16,17 @@ topic: my_topic
 message: Hello Kafka!
 Should return code 200
 
+
 Get the consumed messages:
 Get, execute
-
+{
+  "messages": [
+    {
+      "topic": "my_topic",
+      "message": "Hello Kafka!"
+    }
+  ]
+}
 
 Stop process in foreground:
 Control-C 
