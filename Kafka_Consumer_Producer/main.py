@@ -1,7 +1,10 @@
 from fastapi import FastAPI, BackgroundTasks
-from aiokafka import AIOKafkaProducer, AIOKafkaConsumer, errors
+# Removing next line to enable streaming; importing confluent_kafka instead
+# from aiokafka import AIOKafkaProducer, AIOKafkaConsumer, errors 
+from confluent_kafka import Consumer, Producer, KafkaError
 import asyncio
 import logging
+import json
 
 app = FastAPI()
 logger = logging.getLogger("uvicorn.error")
