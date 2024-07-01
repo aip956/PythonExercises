@@ -1,21 +1,29 @@
-# Dockerfile
+# Ubuntu Docker Image with Python 3.8
+FROM ubuntu:20.04
 
-# official docker image
-FROM python:3.11.1-slim
-
-# set work directory
+# Set work directory
 WORKDIR /code
 
-# set env variables
+# Install Python 3 and pip
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+# Install virtualenv
+RUN pip3 install --no-cache-dir virtualenv
+
+# Create a virtual environment in the /venv directory
+RUN virtualenv /venv
+
+# Install dependencies
+COPY requirements.txt /code/requirements.txt
+RUN /venv/bin/pip3 install --no-cache-dir -r requirements.txt
+
+# Add the virtual environment to PATH & set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PATH="/venv/bin:$PATH"
 
-# install dependencies
-COPY ./requirements.txt /code/requirements.txt
-RUN pip install --upgrade pip --no-cache-dir --upgrade -r /code/requirements.txt
+# Copy project files
+COPY app /code/app
 
-# copy project
-COPY ./app /code/app
-
-# run the application
-# CMD ["fastapi", "run", "app/main.py", "--port", "80"]
+# Set entrypoint for the container
+ENTRYPOINT ["/venv/bin/uvicorn"]

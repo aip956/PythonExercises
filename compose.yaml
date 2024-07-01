@@ -3,9 +3,9 @@
 services:
   api:
     build: .
-    command: uvicorn app.main:app --host 0.0.0.0
+    command: /venv/bin/uvicorn app.main:app --host 0.0.0.0
     volumes:
-      - .:/app
+      - .:/code
     ports:
       - 8008:8000
 
@@ -34,31 +34,39 @@ services:
       KAFKA_MESSAGE_MAX_BYTES: 1000012
     volumes:
       - ./kafka-data:/var/lib/kafka/data
-
-  connect:
-    image: confluentinc/cp-kafka-connect:latest
-    container_name: kafka-connect
-    ports:
-      - "8083:8083"
-    environment:
-      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
-      CONNECT_REST_PORT: 8083
-      CONNECT_GROUP_ID: "connect-cluster"
-      CONNECT_CONFIG_STORAGE_TOPIC: "connect-configs"
-      CONNECT_OFFSET_STORAGE_TOPIC: "connect-offsets"
-      CONNECT_STATUS_STORAGE_TOPIC: "connect-statuses"
-      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
-      CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
-    depends_on:
-      - kafka
+    
+  test:
+    build: .
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["/venv/bin/python3 -m pytest > /code/pytest_logs.txt"]
     volumes:
-      - ./connect-data:/var/lib/kafka-connect/data
+      - .:/code
+
     
 
 networks:
   default:
     name: kafka_network
+
+  # connect:
+  #   image: confluentinc/cp-kafka-connect:latest
+  #   container_name: kafka-connect
+  #   ports:
+  #     - "8083:8083"
+  #   environment:
+  #     CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+  #     CONNECT_REST_PORT: 8083
+  #     CONNECT_GROUP_ID: "connect-cluster"
+  #     CONNECT_CONFIG_STORAGE_TOPIC: "connect-configs"
+  #     CONNECT_OFFSET_STORAGE_TOPIC: "connect-offsets"
+  #     CONNECT_STATUS_STORAGE_TOPIC: "connect-statuses"
+  #     CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+  #     CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+  #     CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+  #     CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+  #     CONNECT_REST_ADVERTISED_HOST_NAME: "kafka-connect"
+  #     CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
+  #   depends_on:
+  #     - kafka
+  #   volumes:
+  #     - ./connect-data:/var/lib/kafka-connect/data
