@@ -1,5 +1,5 @@
 fastapi==0.68.0
 # pydantic==1.8.2
 uvicorn==0.20.0
-pytest>=6.0
-requests==2.24
+pytest
+requests==2.31.0
