@@ -37,10 +37,14 @@
    ```bash
    docker-compose build 
     ```
-3. **Run the API**:
+2. **Run the API**:
    ```bash
    docker-compose up -d
    ```
-
+3. **Run Testing suite**:
+   ```bash
+   docker-compose run test  
+   ```
+   The testing report is logged in pytest_logs.txt, located in the main directory.
 
 ## Usage
