@@ -37,13 +37,17 @@
    ```bash
    docker-compose up -d
     ```
-3. **Run the API**:
+2. **Run the API**:
    ```bash
    
    uvicorn app.main:app --reload
    (main is under app folder)
    ```
-   Access FastAPI Swagger:
+3. **Run Testing suite**:
+   ```bash
+   docker-compose run test  
+   ```
+   The testing report is logged in pytest_logs.txt, located in the main directory.   Access FastAPI Swagger:
 http://127.0.0.1:8000/docs
 http://localhost:8000/docs
 
