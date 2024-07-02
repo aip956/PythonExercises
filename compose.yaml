@@ -1,4 +1,4 @@
-# docker-compose.yml
+# compose.yml
 
 services:
   api:
@@ -42,7 +42,6 @@ services:
     volumes:
       - .:/code
 
-    
 
 networks:
   default:
