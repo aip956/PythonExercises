@@ -25,7 +25,10 @@ loop = asyncio.get_event_loop()
 producer = AIOKafkaProducer(loop=loop, bootstrap_servers=KAFKA_BOOTSTRAP_SERVER)
 
 consumed_messages = []
+security_messages = []
+clean_up_messages = []
 catering_messages = []
+officiant_messages = []
 waiters_messages = []
 
 @app.on_event("startup")
@@ -34,7 +37,10 @@ async def on_startup():
         await producer.start()
         logger.info("Kafka producer started")
         asyncio.create_task(consume_all())
+        asyncio.create_task(consume_security())
+        asyncio.create_task(consume_clean_up())
         asyncio.create_task(consume_catering())
+        asyncio.create_task(consume_officiant())
         asyncio.create_task(consume_waiters())
         logger.info("Kafka consumer tasks created")
     except errors.KafkaConnectionError as e:
@@ -73,6 +79,43 @@ async def consume_all():
     finally:
         await consumer.stop()
 
+async def consume_security():
+    consumer = AIOKafkaConsumer(
+        *SECURITY_TOPICS,
+        loop=loop,
+        bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
+        group_id="Security")
+    await consumer.start()
+    try:
+        async for msg in consumer:
+            message = msg.value.decode('utf-8')
+            topic = msg.topic
+            security_messages.append({"topic": topic, "message": message})
+            logger.info(f"Security message: {message} from topic: {topic}")
+    except Exception as e:
+        logger.error(f"Error occurred: {e}")
+    finally:
+        await consumer.stop()
+
+async def consume_clean_up():
+    consumer = AIOKafkaConsumer(
+        *CLEAN_UP_TOPICS,
+        loop=loop,
+        bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
+        group_id="Clean_Up")
+    await consumer.start()
+    try:
+        async for msg in consumer:
+            message = msg.value.decode('utf-8')
+            topic = msg.topic
+            clean_up_messages.append({"topic": topic, "message": message})
+            logger.info(f"Clean_Up message: {message} from topic: {topic}")
+    except Exception as e:
+        logger.error(f"Error occurred: {e}")
+    finally:
+        await consumer.stop()
+
+
 async def consume_catering():
     consumer = AIOKafkaConsumer(
         *CATERING_TOPICS, #Sub in KAFA_TOPIC later
@@ -86,6 +129,24 @@ async def consume_catering():
             topic = msg.topic
             catering_messages.append({"topic": topic, "message": message})
             logger.info(f"Catering message: {message} from topic: {topic}")
+    except Exception as e:
+        logger.error(f"Error occurred: {e}")
+    finally:
+        await consumer.stop()
+
+async def consume_officiant():
+    consumer = AIOKafkaConsumer(
+        *OFFICIANT_TOPICS,
+        loop=loop,
+        bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
+        group_id="Officiant")
+    await consumer.start()
+    try:
+        async for msg in consumer:
+            message = msg.value.decode('utf-8')
+            topic = msg.topic
+            officiant_messages.append({"topic": topic, "message": message})
+            logger.info(f"Officiant message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
     finally:
@@ -115,13 +176,27 @@ def get_messages():
     logger.info(f"Returning consumed messages: {consumed_messages}")
     return {"All messages": consumed_messages}
 
-@app.get("/waiters_messages")
-def get_waiters_messages():
-    logger.info(f"Returning consumed messages: {consumed_messages}")
-    return {"waiters messages": waiters_messages}
+@app.get("/security_messages")
+def get_security_messages():
+    logger.info(f"Returning security messages: {security_messages}")
+    return {"security messages": security_messages}
+
+@app.get("/clean_up_messages")
+def get_clean_up_messages():
+    logger.info(f"Returning clean_up messages: {clean_up_messages}")
+    return {"clean_up messages": clean_up_messages}
 
 @app.get("/catering_messages")
 def get_catering_messages():
-    logger.info(f"Returning consumed messages: {consumed_messages}")
+    logger.info(f"Returning catering messages: {catering_messages}")
     return {"catering messages": catering_messages}
 
+@app.get("/officiant_messages")
+def get_officiant_messages():
+    logger.info(f"Returning officiant messages: {officiant_messages}")
+    return {"officiant messages": officiant_messages}
+
+@app.get("/waiters_messages")
+def get_waiters_messages():
+    logger.info(f"Returning waiter messages: {waiters_messages}")
+    return {"waiters messages": waiters_messages}
