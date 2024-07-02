@@ -10,9 +10,9 @@
 
 ### Flow
 #### Task Assignment
-    Coordinator (Producer) receives event
+    Coordinator (Producer) sends event
     Coordinator publishes to the Organizer (Broker)
-    Worker (Consumer) subscribes to event
+    Worker Teams (Consumers) subscribe to event
     Worker receives event
     Worker service updates the database and acknowledges event
 
@@ -35,12 +35,21 @@
 
 1. **Build the Docker Image**:
    ```bash
-   docker-compose build 
+   docker-compose up -d
     ```
 3. **Run the API**:
    ```bash
-   docker-compose up -d
+   
+   uvicorn app.main:app --reload
+   (main is under app folder)
    ```
+   Access FastAPI Swagger:
+http://127.0.0.1:8000/docs
+http://localhost:8000/docs
 
 
 ## Usage
+Post a message:
+topic: my_topic
+message: Hello Kafka!
+Should return code 200

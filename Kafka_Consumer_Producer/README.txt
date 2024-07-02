@@ -13,21 +13,14 @@ http://127.0.0.1:8000/docs
 http://localhost:8000/docs
 
 Post a message:
-topic: my_topic
-message: Hello Kafka!
+topic: person_fell
+message: Oh dang, mom's on her butt
 Should return code 200
+Get requests for Security, Waiters should show this entry
 
 
-Get the consumed messages:
-Get, execute
-{
-  "messages": [
-    {
-      "topic": "my_topic",
-      "message": "Hello Kafka!"
-    }
-  ]
-}
+
+
 
 Stop process in foreground:
 Control-C 
