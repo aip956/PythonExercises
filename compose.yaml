@@ -38,7 +38,7 @@ services:
   test:
     build: .
     entrypoint: ["/bin/sh", "-c"]
-    command: ["/venv/bin/python3 -m pytest > /code/pytest_logs.txt"]
+    command: ["/venv/bin/python3 -m pytest > /code/app/tests/pytest_logs.txt"]
     volumes:
       - .:/code
 
