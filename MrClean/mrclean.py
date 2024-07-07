@@ -24,8 +24,8 @@ def get_content(article_name):
         return None
 
 # Clean the data; merge the contents of the pages into a single string
-# and return it. Extracts the pages from the data and concatenates the
-
+# and return it. Extracts the pages from the data and concatenates the  
+# content of the pages. Returns the merged content.
 def merge_contents(data):
     pages = data["query"]["pages"]
     content = ""
