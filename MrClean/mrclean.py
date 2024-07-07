@@ -45,13 +45,41 @@ def tokenize(content):
 def lower_collection(collection):
     return [word.lower() for word in collection]
 
+# Count the number of occurences of each word in the collection. Returns
+# a dictionary where the keys are the words and the values are the counts.
+def count_frequency(collection):
+    frequency = {}
+    for word in collection:
+        if word in frequency:
+            frequency[word] += 1
+        else:
+            frequency[word] = 1
+    return frequency
+
+# Filter out insignificant words from the frequency dictionary. The
+# words to filter out are stored in the stopwords list. Returns a new
+# dictionary with the insignificant words removed.
+stop_words = ["the", "a", "an", "in", "on", "of", "and", "for", "to", "from", "with", "by", "as", "at", "that", "this", "these", "those", "then", "than", "thus", "so", "or", "but", "not", "is", "are", "was", "were", "be", "being", "been", "have", "has", "had", "do", "does", "did", "can", "could", "will", "would", "shall", "should", "may", "might", "must", "it", "its", "they", "their", "them", "he", "his", "him", "she", "her", "it", "its", "they", "their", "them", "he", "his", "him", "she", "her", "i", "me", "my", "mine", "you", "your", "yours", "we", "us", "our", "ours", "yourself", "yourselves", "myself", "ourselves", "himself", "herself", "itself", "themselves", "each", "every", "either", "neither", "some", "any", "all", "most", "several", "few", "many", "much", "more", "less", "least", "own", "other", "another", "such", "what", "which", "who", "whom", "whose", "where", "when", "why", "how", "if", "whether", "either", "or", "neither", "nor", "both", "and", "but", "however", "although", "though", "even", "just", "only", "unless", "until", "while", "because", "since", "so", "therefore", "thus", "hence", "accordingly", "consequently", "furthermore", "moreover", "meanwhile", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "one", "two", "three"]
+def remove_stop_words(words, stop_words):
+    return {word: count for word, count in works.items() if word not in stopwords}  
+
+
+def print_most_frequent(frequency, n):
+    sorted_frequency = sorted(frequency.items(), key=lambda x: x[1], reverse=True)
+    for i in range(n):
+        print(f"{sorted_frequency[i][0]}: {sorted_frequency[i][1]}")
+
 
 # Fetch content from article "Ozone_layer"
 data = get_content("Ozone_layer")
 merge_content = merge_contents(data)
 collection = tokenize(merge_content)
 collection_lower = lower_collection(collection)
+remove_stop_words(collection_lower, stop_words)
+frequency = count_frequency(collection_lower)
 # print(f"data: ", data)
 # print(f"merge_content: ", merge_content)
 # print(f"collection: ", collection)
-print(f"collection_lower: ", collection_lower)
+# print(f"collection_lower: ", collection_lower)
+# print(f"frequency: ", frequency)
+print_most_frequent(frequency, 10)
