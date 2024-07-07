@@ -1,23 +1,35 @@
 # My Mr Clean
 ## DESCRIPTION
- My Mr. Clean is a python utility for extracting information via API, determining the most common words, and plotting their frequencies
+ My Mr. Clean is a python utility for extracting textual information from Wikipedia articles via API, determining the most common words, and plotting their frequencies
 
 ## DEPENDENCIES
 Python 3.6 or higher
+Jupyter
 
 ## INSTALLATION
 Clone this repository to your local machine
-Ensure Python is installed on your system
+Verify Python is installed on your system
 - python3 --version
+- If Python3 not installed, 
+  - Visit Python.org and download the installer
+  - Open the downloaded .pkg and follow the instructions
+Run in a Virtual Environment
+- Navigate to project directory i the Terminal
+- run python3 -m venv myvenv(replace myvenv with desired environment name)
+- Activate venv
+  - macOS: source myvenv/bin/activate
+  - Windows: myvenv\Scripts\activate
+- Deactivate the venv later
+  - deactivate
   
-Install Jupyter and the requirements
+Install Jupyter and the requirements (which contains necessary Python packages)
 - pip install jupyterlab
 - pip install -r requirements.txt
 
 
 ## EXECUTE PROGRAM
 1. Navigate to the directory containing my_mr_clean.ipynb
-2. Start Jupyter Notbook or Jupyter Lab:
+2. Start Jupyter Notebook or Jupyter Lab:
    1. For Notebook: 'jupyter notebook'
    2. For Lab: 'jupyter lab'
 3. In the Jupyter interface, navigate to 'my_mr_clean.ipynb'
@@ -28,10 +40,12 @@ Install Jupyter and the requirements
 The code access the article "Ozone_layer" from Wikipedia
 
 #### get_content
-This method makes an HTTP GET request to the Wikipedia API and returns a JSON response of the content in the page
+This method makes an HTTP GET request to the Wikipedia API and returns a JSON response of the content in the page.
+URL: https://en.wikipedia.org/w/api.php
+Article: Ozone_layer (https://en.wikipedia.org/wiki/Ozone_layer)
 
 #### merge_contents
-This method cleans the data by merging the contents from the page into a single string; it extracts the pages from the data in get_content, and concatenates the content, returning the merged content.
+This method cleans the data by merging the textual content retrieved from multiple sections of the Wiki page into a single string; it extracts the pages from the data in get_content, and concatenates the content, returning the merged content.
 
 #### tokenize
 This method splits the merged contents into words split by spaces and newline characters. It returns a list of tokens/words.
@@ -49,9 +63,10 @@ This method removes insignificant words (e.g the, a, an, in, etc.) from the coll
 This method gets the most frequent words (without stop_words).
 
 #### Table
-Created a DataFrame of Words and Frequency
+Created a DataFrame of Words and Frequency using Pandas
 
 #### PLOTTING
+- Uses matplotlib
 - Dark background
 - Figure size 10" wide, 8" tall
 - "Words" on the x-axis, "Frequency" on y-axis
@@ -65,6 +80,7 @@ Created a DataFrame of Words and Frequency
 #### THE PLOT   
 ![Jupyter Frequency Plot](Jupyter_Frequency_Plot.png)
 
-
+#### TEAM
+Anthea Ip
 
 
