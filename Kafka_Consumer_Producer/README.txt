@@ -35,6 +35,9 @@ docker-compose stop
 Remove containers:
 docker-compose down
 
+git checkout main
+git pull
+git checkout -b anthea/subject
 
 Make a branch
 Commit
