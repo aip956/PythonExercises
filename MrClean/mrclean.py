@@ -61,7 +61,7 @@ def count_frequency(collection):
 # dictionary with the insignificant words removed.
 stop_words = ["the", "a", "an", "in", "on", "of", "and", "for", "to", "from", "with", "by", "as", "at", "that", "this", "these", "those", "then", "than", "thus", "so", "or", "but", "not", "is", "are", "was", "were", "be", "being", "been", "have", "has", "had", "do", "does", "did", "can", "could", "will", "would", "shall", "should", "may", "might", "must", "it", "its", "they", "their", "them", "he", "his", "him", "she", "her", "it", "its", "they", "their", "them", "he", "his", "him", "she", "her", "i", "me", "my", "mine", "you", "your", "yours", "we", "us", "our", "ours", "yourself", "yourselves", "myself", "ourselves", "himself", "herself", "itself", "themselves", "each", "every", "either", "neither", "some", "any", "all", "most", "several", "few", "many", "much", "more", "less", "least", "own", "other", "another", "such", "what", "which", "who", "whom", "whose", "where", "when", "why", "how", "if", "whether", "either", "or", "neither", "nor", "both", "and", "but", "however", "although", "though", "even", "just", "only", "unless", "until", "while", "because", "since", "so", "therefore", "thus", "hence", "accordingly", "consequently", "furthermore", "moreover", "meanwhile", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "one", "two", "three"]
 def remove_stop_words(words, stop_words):
-    return {word: count for word, count in works.items() if word not in stopwords}  
+    return [word for word in words if word not in stop_words and word.strip() and word.isalpha()]
 
 
 def print_most_frequent(frequency, n):
@@ -75,8 +75,8 @@ data = get_content("Ozone_layer")
 merge_content = merge_contents(data)
 collection = tokenize(merge_content)
 collection_lower = lower_collection(collection)
-remove_stop_words(collection_lower, stop_words)
-frequency = count_frequency(collection_lower)
+collection_filtered = remove_stop_words(collection_lower, stop_words)
+frequency = count_frequency(collection_filtered)
 # print(f"data: ", data)
 # print(f"merge_content: ", merge_content)
 # print(f"collection: ", collection)
