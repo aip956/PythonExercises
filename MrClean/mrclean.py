@@ -33,12 +33,25 @@ def merge_contents(data):
         content += page["revisions"][0]["content"]
     return content
 
+# Tokenize the content by splitting it into words. The content is split
+# by spaces and newline characters. Returns a list of tokens (words).
 def tokenize(content):
     splitters = [" ", "\n"]
     regex_pattern = "|".join(map(re.escape, splitters))
+    tokens = re.split(regex_pattern, content)
+    return tokens
+
+#Update the collection of words for them to be lower case
+def lower_collection(collection):
+    return [word.lower() for word in collection]
+
 
 # Fetch content from article "Ozone_layer"
 data = get_content("Ozone_layer")
 merge_content = merge_contents(data)
-print(f"data: ", data)
+collection = tokenize(merge_content)
+collection_lower = lower_collection(collection)
+# print(f"data: ", data)
 # print(f"merge_content: ", merge_content)
+# print(f"collection: ", collection)
+print(f"collection_lower: ", collection_lower)
