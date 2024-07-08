@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from databases import Database
 import psycopg2
+import time
 
 KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "localhost:9092")
 
@@ -15,7 +16,8 @@ app = FastAPI()
 logger = logging.getLogger("uvicorn.error")
 
 # Database setup
-DATABASE_URL = "postgresql://user:password@postgresserver/db"
+# DATABASE_URL = "postgresql://user:password@postgresserver/db"
+DATABASE_URL = "postgresql://username:password@postgres:5432/dbname"
 # Database instance
 database = Database(DATABASE_URL)
 # Engine and session factory
