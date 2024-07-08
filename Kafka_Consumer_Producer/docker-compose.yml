@@ -1,7 +1,18 @@
 # docker-compose.yml
-version: '2'
+version: '3.8'
 services:
-  
+  postgres:
+    image: postgres:latest
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    ports:
+      - "5432:5432"
+
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1
     hostname: zookeeper
@@ -23,6 +34,9 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    depends_on:
+      - zookeeper
 
   web:
     image: nginx:latest
@@ -31,10 +45,25 @@ services:
       - "8080:8000"
     volumes:
       - ./web:/usr/share/nginx/html
-#       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-#     depends_on:
-#       - zookeeper
+    depends_on:
+      - kafka
+      - zookeeper
 
-# networks:
-#   default:
-#     name: kafka_network
+  app:
+    build: .
+    container_name: app_service
+    environment:
+      - KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      - DATABASE_URL: postgresql://username:password@postgres:5432/dbname
+    depends_on:
+      - kafka
+      - zookeeper
+      - postgres
+    networks:
+      - default
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: kafka_network

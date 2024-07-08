@@ -3,14 +3,117 @@ from aiokafka import AIOKafkaProducer, AIOKafkaConsumer, errors, AIOKafkaClient
 import asyncio
 import logging
 import os
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from databases import Database
 
-
-# KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "default_topic")
 KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "localhost:9092")
 
 app = FastAPI()
 logger = logging.getLogger("uvicorn.error")
 
+# Database setup
+DATABASE_URL = "postgresql://user:password@postgresserver/db"
+# Database instance
+database = Database(DATABASE_URL)
+# Engine and session factory
+engine = create_engine(DATABASE_URL)
+Session = sessionmaker(bind=engine)
+# Create a base class for declarative models
+Base = declarative_base()
+
+# Define the models for each topic table in db
+
+class ConsumedMessage(Base):
+    __tablename__ = 'consumed_messages'
+    id = Column(Integer, primary_key=True)
+    topic = Column(String)
+    message = Column(String)
+
+class PersonFell(Base):
+    __tablename__ = "person_fell"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class BrokenGlass(Base):
+    __tablename__ = "broken_glass"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class DirtyTable(Base):
+    __tablename__ = "dirty_table"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class Brawl(Base):
+    __tablename__ = "brawl"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class MissingRings(Base):
+    __tablename__ = "missing_rings"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class MissingBride(Base):
+    __tablename__ = "missing_bride"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class MissingGroom(Base):
+    __tablename__ = "missing_groom"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class FeelingIll(Base):
+    __tablename__ = "feeling_ill"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)    
+
+class InjuredKid(Base):
+    __tablename__ = "injured_kid"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class NotOnList(Base):
+    __tablename__ = "not_on_list"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class BadFood(Base):
+    __tablename__ = "bad_food"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class MusicTooLoud(Base):
+    __tablename__ = "music_too_loud"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+class MusicTooLow(Base):
+    __tablename__ = "music_too_low"
+    id = Column(Integer, primary_key=True)
+    message = Column(String)
+
+
+# Create the tables in the database
+Base.metadata.create_all(engine)
+
+
+
+
+
+
+
+
+# Function to save a consumed message to the database
+def save_consumed_message(topic, message):
+    session = Session()
+    consumed_message = ConsumedMessage(topic=topic, message=message)
+    session.add(consumed_message)
+    session.commit()
+    session.close()
 # All the data topics
 topics = ["person_fell", "broken_glass", "dirty_table", "brawl", "missing_rings", "missing_bride", "missing_groom", "feeling_ill", "injured_kid", "not_on_list", "bad_food", "music_too_loud", "music_too_low"]
 SECURITY_TOPICS = ["brawl", "not_on_list", "person_fell", "injured_kid"]
