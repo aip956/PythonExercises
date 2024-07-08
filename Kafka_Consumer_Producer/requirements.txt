@@ -2,6 +2,7 @@ fastapi==0.68.0
 # # pydantic==1.8.2
 uvicorn==0.20.0
 aiokafka
+aiohttp==3.8.1
 # pytest==6.0
 # requests==2.24
 # pip install aiokafka fastapi uvicorn

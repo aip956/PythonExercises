@@ -11,10 +11,13 @@ Access FastAPI Swagger:
 http://127.0.0.1:8000/docs
 http://localhost:8000/docs
 
-Post a message:
-topic: my_topic
-message: Hello Kafka!
-Should return code 200
+#### Post a message:
+topic: feeling_ill
+message: Guest has stomach ache after eating 5 pieces of cake
+- Should return code 200
+- Alternatively, can start the servers (docker-compose up -d) and the app (uvicorn main:app --reload)
+-- Then run data script to auto-send data:
+python3 data.py
 
 
 Get the consumed messages:

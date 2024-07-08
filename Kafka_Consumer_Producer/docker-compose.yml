@@ -1,6 +1,7 @@
 # docker-compose.yml
 version: '2'
 services:
+  
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1
     hostname: zookeeper
@@ -22,6 +23,14 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  web:
+    image: nginx:latest
+    container_name: web_server
+    ports:
+      - "8080:8000"
+    volumes:
+      - ./web:/usr/share/nginx/html
 #       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
 #     depends_on:
 #       - zookeeper

@@ -65,7 +65,10 @@ async def consume_all():
         *topics, # Unpack all topic names
         loop=loop,
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
-        group_id= "AllConsumers")
+        group_id= "AllConsumers",
+        session_timeout_ms = 10000, # 6 seconds
+        heartbeat_interval_ms = 3000, # 2 seconds
+    )
     await consumer.start()
     try:
         async for msg in consumer:
