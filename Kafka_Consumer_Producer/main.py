@@ -110,10 +110,44 @@ Base.metadata.create_all(engine)
 # Function to save a consumed message to the database
 def save_consumed_message(topic, message):
     session = Session()
-    consumed_message = ConsumedMessage(topic=topic, message=message)
+    if topic == "person_fell":
+        consumed_message = PersonFell(message=message)
+    elif topic == "broken_glass":
+        consumed_message = BrokenGlass(message=message)
+    elif topic == "dirty_table":
+        consumed_message = DirtyTable(message=message)  
+    elif topic == "brawl":
+        consumed_message = Brawl(message=message)
+    elif topic == "missing_rings":
+        consumed_message = MissingRings(message=message)
+    elif topic == "missing_bride":
+        consumed_message = MissingBride(message=message)
+    elif topic == "missing_groom":
+        consumed_message = MissingGroom(message=message)
+    elif topic == "feeling_ill":
+        consumed_message = FeelingIll(message=message)
+    elif topic == "injured_kid":
+        consumed_message = InjuredKid(message=message)
+    elif topic == "not_on_list":
+        consumed_message = NotOnList(message=message)
+    elif topic == "bad_food":
+        consumed_message = BadFood(message=message)
+    elif topic == "music_too_loud":
+        consumed_message = MusicTooLoud(message=message)
+    elif topic == "music_too_low":
+        consumed_message = MusicTooLow(message=message)
+    else:
+        # Handle unknown topic
+        session.close()
+        return
+    # consumed_message = ConsumedMessage(topic=topic, message=message)
     session.add(consumed_message)
     session.commit()
     session.close()
+
+
+
+
 # All the data topics
 topics = ["person_fell", "broken_glass", "dirty_table", "brawl", "missing_rings", "missing_bride", "missing_groom", "feeling_ill", "injured_kid", "not_on_list", "bad_food", "music_too_loud", "music_too_low"]
 SECURITY_TOPICS = ["brawl", "not_on_list", "person_fell", "injured_kid"]
@@ -178,6 +212,7 @@ async def consume_all():
             message = msg.value.decode('utf-8')
             topic = msg.topic
             consumed_messages.append({"topic": topic, "message": message})
+            save_consumed_message(topic, message)   #Save message to the right table
             logger.info(f"Consumed_all message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -189,13 +224,17 @@ async def consume_security():
         *SECURITY_TOPICS,
         loop=loop,
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
-        group_id="Security")
+        groups_id="Security",
+        session_timeout_ms=10000,
+        heartbeat_interval_ms=3000,
+    )
     await consumer.start()
     try:
         async for msg in consumer:
             message = msg.value.decode('utf-8')
             topic = msg.topic
             security_messages.append({"topic": topic, "message": message})
+            save_consumed_message(topic, message)  # Save message to the appropriate table
             logger.info(f"Security message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -207,13 +246,17 @@ async def consume_clean_up():
         *CLEAN_UP_TOPICS,
         loop=loop,
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
-        group_id="Clean_Up")
+        group_id="Clean_Up",
+        session_timeout_ms=10000,
+        heartbeat_interval_ms=3000,
+    )
     await consumer.start()
     try:
         async for msg in consumer:
             message = msg.value.decode('utf-8')
             topic = msg.topic
             clean_up_messages.append({"topic": topic, "message": message})
+            save_consumed_message(topic, message)  # Save message to the appropriate table
             logger.info(f"Clean_Up message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -226,13 +269,17 @@ async def consume_catering():
         *CATERING_TOPICS, #Sub in KAFA_TOPIC later
         loop=loop,
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
-        group_id="Catering")
+        group_id="Catering",
+        session_timeout_ms=10000,
+        heartbeat_interval_ms=3000,
+    )
     await consumer.start()
     try:
         async for msg in consumer:
             message = msg.value.decode('utf-8')
             topic = msg.topic
             catering_messages.append({"topic": topic, "message": message})
+            save_consumed_message(topic, message)  # Save message to the appropriate table
             logger.info(f"Catering message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -244,13 +291,17 @@ async def consume_officiant():
         *OFFICIANT_TOPICS,
         loop=loop,
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
-        group_id="Officiant")
+        group_id="Officiant",
+        session_timeout_ms=10000,
+        heartbeat_interval_ms=3000,
+    )
     await consumer.start()
     try:
         async for msg in consumer:
             message = msg.value.decode('utf-8')
             topic = msg.topic
             officiant_messages.append({"topic": topic, "message": message})
+            save_consumed_message(topic, message)  # Save message to the appropriate table
             logger.info(f"Officiant message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
@@ -262,13 +313,17 @@ async def consume_waiters():
         *WAITERS_TOPICS,
         loop=loop,
         bootstrap_servers=KAFKA_BOOTSTRAP_SERVER,
-        group_id="Waiters")
+        group_id="Waiters",
+        session_timeout_ms=10000,
+        heartbeat_interval_ms=3000,
+    )
     await consumer.start()
     try:
         async for msg in consumer:
             message = msg.value.decode('utf-8')
             topic = msg.topic
             waiters_messages.append({"topic": topic, "message": message})
+            save_consumed_message(topic, message)  # Save message to the appropriate table
             logger.info(f"Waiting message: {message} from topic: {topic}")
     except Exception as e:
         logger.error(f"Error occurred: {e}")
