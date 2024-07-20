@@ -10,3 +10,4 @@ http://web-id-9cfb.docode.us.qwasar.io
 go to browser
 will direct me to port 8080
 password is qwasar
+ctrl-c to stop
