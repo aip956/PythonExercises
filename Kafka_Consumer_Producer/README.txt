@@ -44,3 +44,8 @@ git checkout -b anthea/subject
 
 Make a branch
 Commit
+
+go back to a git version:
+commit
+git checkout {id}
+id: 340049a
