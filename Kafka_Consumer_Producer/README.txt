@@ -46,6 +46,6 @@ Make a branch
 Commit
 
 go back to a git version:
-commit
+commit latest version 
 git checkout {id}
 id: 340049a
