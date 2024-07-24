@@ -17,7 +17,8 @@ logger = logging.getLogger("uvicorn.error")
 
 # Database setup
 # DATABASE_URL = "postgresql://user:password@postgresserver/db"
-DATABASE_URL = "postgresql://username:password@postgres:5432/dbname"
+# DATABASE_URL = "postgresql://username:password@postgres:5432/dbname"
+DATABASE_URL = os.getenv("DATABASE_URL")
 # Database instance
 database = Database(DATABASE_URL)
 # Engine and session factory
@@ -27,7 +28,7 @@ Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 # Define the models for each topic table in db
-
+# // cmd -f ; connect to container when
 class ConsumedMessage(Base):
     __tablename__ = 'consumed_messages'
     id = Column(Integer, primary_key=True)
