@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, BackgroundTasks, HTTPException
+from fastapi import FastAPI, Response, BackgroundTasks, HTTPException, Query
 from aiokafka import AIOKafkaProducer, AIOKafkaConsumer, errors, AIOKafkaClient
 import asyncio
 import logging
@@ -51,9 +51,10 @@ async def on_shutdown():
     logger.info("Kafka producer stopped")
 
 @app.post("/send/{topic}")
-async def produce(topic: str, message: str):
+async def produce(topic: str, message: str, priority: str = Query(...)):
     try:
-        await producer.send_and_wait(topic, message.encode('utf-8'))
+        event_message = f"{message} | Priority: {priority}"
+        await producer.send_and_wait(topic, event_message.encode('utf-8'))
         logger.info(f"Produced message: {message} to topic: {topic}")
         return {"message": "Message sent successfully"}
     except errors.KafkaConnectionError as e:
@@ -174,31 +175,37 @@ async def consume_waiters():
 
 
 @app.get("/messages")
-def get_messages():
-    logger.info(f"Returning consumed messages: {consumed_messages}")
-    return {"All messages": consumed_messages}
+def get_messages(priority: str = Query(None)):
+    filtered_messages = [msg for msg in consumed_messages if priority is None or f"Priority: {priority}" in msg["message"]]
+    logger.info(f"Returning consumed messages: {filtered_messages}")
+    return {"All messages": filtered_messages}
 
 @app.get("/security_messages")
-def get_security_messages():
-    logger.info(f"Returning security messages: {security_messages}")
-    return {"security messages": security_messages}
+def get_security_messages(priority: str = Query(None)):
+    filtered_messages = [msg for msg in security_messages if priority is None or f"Priority: {priority}" in msg["message"]]
+    logger.info(f"Returning security messages: {filtered_messages}")
+    return {"security messages": filtered_messages}
 
 @app.get("/clean_up_messages")
-def get_clean_up_messages():
+def get_clean_up_messages(priority: str = Query(None)):
     logger.info(f"Returning clean_up messages: {clean_up_messages}")
-    return {"clean_up messages": clean_up_messages}
+    filtered_messages = [msg for msg in clean_up_messages if priority is None or f"Priority: {priority}" in msg["message"]]
+    return {"clean_up messages": filtered_messages}
 
 @app.get("/catering_messages")
-def get_catering_messages():
+def get_catering_messages(priority: str = Query(None)):
     logger.info(f"Returning catering messages: {catering_messages}")
-    return {"catering messages": catering_messages}
+    filtered_messages = [msg for msg in catering_messages if priority is None or f"Priority: {priority}" in msg["message"]]
+    return {"catering messages": filtered_messages}
 
 @app.get("/officiant_messages")
-def get_officiant_messages():
+def get_officiant_messages(priority: str = Query(None)):
     logger.info(f"Returning officiant messages: {officiant_messages}")
-    return {"officiant messages": officiant_messages}
+    filtered_messages = [msg for msg in officiant_messages if priority is None or f"Priority: {priority}" in msg["message"]]
+    return {"officiant messages": filtered_messages}
 
 @app.get("/waiters_messages")
-def get_waiters_messages():
+def get_waiters_messages(priority: str = Query(None)):
     logger.info(f"Returning waiter messages: {waiters_messages}")
-    return {"waiters messages": waiters_messages}
+    filtered_messages = [msg for msg in waiters_messages if priority is None or f"Priority: {priority}" in msg["message"]]
+    return {"waiters messages": filtered_messages}
