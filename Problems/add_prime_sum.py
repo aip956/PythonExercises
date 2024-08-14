@@ -17,34 +17,34 @@
 #     5 / 4
 
 def is_prime(param_1): # 10
+    # print("line 20: ", param_1)
+    if param_1 <= 1:
+        return False
+    # print("line 23: ", param_1//2 + 1)
     for j in range(2, param_1//2 + 1):
-        if (param_1 % j == 0):
-            print (param_1, " is not prime")
-            break
-        else:
-            print(param_1, " is prime")
-
+        # print("line24: ", j)
+        if param_1 % j == 0:
+            # print (param_1, " is not prime")
+            return False
+    # print(param_1, " is prime")
+    return True
         
     
-# def add_prime_sum(param_1):
+def add_prime_sum(param_1):
 #     i = param_1
 #     # For each num, check if it is prime
 #     # If prime, add to sum
-#     # sum = 0
-#     # for i in range(2, param_1):
-#     #     print("i: ", i) #2
-#         # determine if i prime
-#         for j in range(2, i//2 + 1): #2, 3
-#             if (i % j) != 0:
-#                 print(i, " is prime")
-#                 sum += i
-#                 print("j: ", j)
-#                 print("sum: ", sum)
-#                 break  
-#     return sum
+
+    sum = 0
+    for i in range(2, param_1+1):
+        print("i: ", i) #2
+        print("is_prime(i): ", is_prime(i))
+        if (is_prime(i)):
+            sum += i
+    return sum
         
 # Test cases
 print("input: 5")
-print(is_prime(5))  # 2+3+5
+print(add_prime_sum(5))  # 2+3+5
 print("input: 8")
-print(is_prime(8))  # 2+3+5+7=17
+print(add_prime_sum(8))  # 2+3+5+7=17
