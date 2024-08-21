@@ -16,13 +16,22 @@ def my_model_evaluation_journey_r2_score(data):
     true_data = pd.read_csv(StringIO(true_data_str))
     pred_data = pd.read_csv(StringIO(pred_data_str))
 
-    # Are DFs same shape?
-    if true_data.shape != pred_data.shape or not all(true_data.columns == pred_data.columns):
-        raise ValueError("Not same shape")
+    # Align datasets based on robot_model_name
+    merged_data = pd.merge(true_data, pred_data, on="robot_model_name", suffixes=('_true', '_pred'))
+
+    # Make the shapes match by trimming extra rows
+    true_vals = merged_data.filter(regex='true$').values
+    pred_vals = merged_data.filter(regex='pred$').values
+
     
-    # Extract relevant colums for calc
-    true_vals = true_data.drop(columns=["robot_model_name"])
-    pred_vals = pred_data.drop(columns=["robot_model_name"])
+
+    # # Are DFs same shape?
+    # if true_data.shape != pred_data.shape or not all(true_data.columns == pred_data.columns):
+    #     raise ValueError("Not same shape")
+    
+    # # Extract relevant colums for calc
+    # true_vals = true_data.drop(columns=["robot_model_name"])
+    # pred_vals = pred_data.drop(columns=["robot_model_name"])
 
     # Calc R-sq val
     r2 = r2_score(true_vals, pred_vals)
