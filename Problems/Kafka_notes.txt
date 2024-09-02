@@ -61,6 +61,21 @@ Topic, Partitions, Segments
                 Value is usually business-relevant data 
                 Key is used to decied into which partition record is written
                 Important because ordering is only guaranteed on a partition, not on a topic level!
-    Brokers Manage Partitions: page 53               
+    Brokers Manage Partitions: page 53   
+        Messages of Topic spread across Partitions
+        Partitions spread across Brokers
+        Each Broker handles many Partitions  
+        Each Partition stored on Broker's disk
+        Partition 1 . . n log files
+        Each message in Log id'd by offset
+        Configureable Retention Policy
+    Broker Basics
+        Producer sends Messages to Brokers
+        Brokers receive and store Messages
+        Kafka Cluster can have many Brokers
+        Each Broker manages multiple Partitions
+    Broker Replication
+
+
 
 
