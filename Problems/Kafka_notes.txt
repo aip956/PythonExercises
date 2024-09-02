@@ -43,5 +43,24 @@ Topic, Partitions, Segments
         Portion of a Partition
     Log: Data structure like a queue of elements
         New elements are appended to the end of the log
+    Log structured data flow:
+        Data -> Log -> Destination
+        Destination consumes in temporal order
+    The Stream:
+        Sequence of events
+        Began sometime in the past 
+        Stream is open-ended; we don't know when the stream will stop 
+        We therefore don't know how much data to expect in the future
+        Stream is immutable; we don't modify the existing stream but instead generate a new output 
+    Data Elements:
+        Data element in a log (or topic) is called a record
+        Record is also message or event
+        Consists of metadata and a body
+            Metadata contains offset, compression, magic byte, timestamp, optional headers 
+            Body consists of a Key and Value 
+                Value is usually business-relevant data 
+                Key is used to decied into which partition record is written
+                Important because ordering is only guaranteed on a partition, not on a topic level!
+    Brokers Manage Partitions: page 53               
 
 
