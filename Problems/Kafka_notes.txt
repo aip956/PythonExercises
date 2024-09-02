@@ -9,7 +9,7 @@ All events stores for historical view
 Lab 01 - Exploring Apache Kafka in the Exercise Book.
 
 Fundamentals
-Key elements of Kafka
+Key elements of Kafka and their responsibilities
     Producer sends data to Kafka
         Optional; Kafka sends ack or nack back (acknowledged, not ack)
         Many producers send data to Kafka concurrently
@@ -17,5 +17,31 @@ Key elements of Kafka
         Broker receives data from Producers and store temporarily in page cache or permanently on disk after the OS flushes page cache
         Brokers keep the data ready for downstream consumers
         Data is kept per retention time (1 week default)
-Each element's responsibilities
+    Consumers: Poll the data from Kafka
+        Many consumers can poll Kafka for data
+        Conumers are organized in consumer groups which split the work to allow parallelism
+    Zookeeper: Cluster of instances that form an ensemble
+        Kafka Cluster management
+        Failure detection and recovery
+        Store Access Control Lists (ACLs) for Kafka cluster authorization
+        Distributed Key Value Store
+        3-5 servers form an ensemble
+Producers are decoupled from Consumers
+    Slow consumers do not affect producers
+    Consumer failure does not affect System
+    They need to agree on data format
 Topic, Partitions, Segments
+    Topics: Streams of related messages in Kafka
+        Producer : Topic: N to N relations
+        Unlimited number of Topics
+        Topic: Like a group of data (Broken glass, person fell)
+    Partition: Kafka splits a single topic into many partitions 
+        The partition is handled by a single Kafka Broker
+        Partition can be viewed as a log
+    Segment:
+        Broker stores the messages as they come in memory / page cache, then flushes them to a physical file 
+        Portion of a Partition
+    Log: Data structure like a queue of elements
+        New elements are appended to the end of the log
+
+
