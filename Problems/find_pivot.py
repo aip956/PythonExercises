@@ -16,29 +16,25 @@ if from_left_sum < from_right_sum, increment from_left_index_index
 else if from_left > from_right, decriment from_right_index
 else if equal, increment and decriment both indices and sums
 
+Right way:
+create a total sum; (16)
+create a left_sum (0, 1, 3, 6, 10, 10)
+right_sum = total_sum - left_sum - arr[i] ( 15, 13, 10, 6, 0)
+when left_sum == right_sum, return index + 1
+
 """
 
 def find_pivot(param_1, param_2):
-    from_left_index = 0
-    from_right_index = param_2 - 1
-    from_left_sum = param_1[0]
-    from_right_sum = param_1[param_2 - 1]
-    while from_right_index - from_left_index > 2:
-        if from_left_sum < from_right_sum:
-            from_left_index += 1
-            from_left_sum += param_1[from_left_index]
-        elif from_left_sum > from_right_sum:
-            from_right_index -= 1
-            from_right_sum += param_1[from_right_index]
-        elif from_left_sum == from_right_sum:
-            if from_right_index - from_left_index == 2:
-                return from_left_index + 1
-            from_left_index += 1
-            from_left_sum += param_1[from_left_index]
-            from_right_index -= 1
-            from_right_sum += param_1[from_right_index]
+    total_sum = sum(param_1)
+    left_sum = 0
+    for i in range(param_2):
+        right_sum = total_sum - left_sum - param_1[i]
+        print(f"left_sum: {left_sum}, right_sum: {right_sum}")
+        if left_sum == right_sum:
+            return i
+        left_sum += param_1[i]
     return -1
-        
+
 param_1 = [1, 2, 3, 4, 0, 6]
 param_2 = 6       
 print(find_pivot(param_1, param_2))
