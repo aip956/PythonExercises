@@ -1,0 +1,21 @@
+Kafka notes
+
+Why?
+Shift from static snapshot to continuous
+Single platform connects everyone to every event
+Real time stream of events
+All events stores for historical view
+
+Lab 01 - Exploring Apache Kafka in the Exercise Book.
+
+Fundamentals
+Key elements of Kafka
+    Producer sends data to Kafka
+        Optional; Kafka sends ack or nack back (acknowledged, not ack)
+        Many producers send data to Kafka concurrently
+    Brokers: Kafka consists of a bunch of Brokers / cluster of Brokers
+        Broker receives data from Producers and store temporarily in page cache or permanently on disk after the OS flushes page cache
+        Brokers keep the data ready for downstream consumers
+        Data is kept per retention time (1 week default)
+Each element's responsibilities
+Topic, Partitions, Segments
