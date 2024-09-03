@@ -75,6 +75,12 @@ Topic, Partitions, Segments
         Kafka Cluster can have many Brokers
         Each Broker manages multiple Partitions
     Broker Replication
+        Kafka can replicate partitions for fault tolerance
+        Each partition has a leader server and 0 or more follower servers
+        Leaders handle the read/write requests for a partition
+        E.g. 4 brokers and 3 replicated partitions = replication factor 3 = 1 leader + 2 followers
+    Producer Basics
+        Producer writes Data as Messages
 
 
 
