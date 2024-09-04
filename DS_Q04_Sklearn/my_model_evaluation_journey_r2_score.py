@@ -20,8 +20,8 @@ def my_model_evaluation_journey_r2_score(data):
     merged_data = pd.merge(true_data, pred_data, on="robot_model_name", suffixes=('_true', '_pred'))
 
     # Make the shapes match by trimming extra rows
-    true_vals = merged_data.filter(regex='true$').values
-    pred_vals = merged_data.filter(regex='pred$').values
+    true_vals = merged_data.filter(regex='true$').values.flatten()
+    pred_vals = merged_data.filter(regex='pred$').values.flatten()
 
     # Calc R-sq val
     r2 = r2_score(true_vals, pred_vals)
