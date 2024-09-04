@@ -1,3 +1,14 @@
+Certification prep:
+    Apache Kafka Fundamentals and Accreditation
+        Mod 1: Student Handbook
+                Exercise Book
+        Mod 2: Lab Access  
+            Confluent Training Platform Guide
+            Lab Virtual Machine FUN 
+        Mod 4: Video Lectures
+            Mod 1 - Mod 7
+
+
 Kafka notes
 
 Why?
@@ -80,7 +91,11 @@ Topic, Partitions, Segments
         Leaders handle the read/write requests for a partition
         E.g. 4 brokers and 3 replicated partitions = replication factor 3 = 1 leader + 2 followers
     Producer Basics
-        Producer writes Data as Messages
+        Producer writes Data as Messages to the Kafka cluster
+        Any language
+        Command Line Producer Tool
+    Load Balancing and Semantics
+
 
 
 
