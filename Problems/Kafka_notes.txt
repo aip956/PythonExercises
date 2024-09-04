@@ -12,7 +12,7 @@ Certification prep:
 Kafka notes
 
 Why?
-Shift from static snapshot to continuous
+Shift from discreet static snapshot to continuous
 Single platform connects everyone to every event
 Real time stream of events
 All events stores for historical view
