@@ -49,6 +49,7 @@ Topic, Partitions, Segments
     Partition: Kafka splits a single topic into many partitions 
         The partition is handled by a single Kafka Broker
         Partition can be viewed as a log
+        Break topic into pieces, and align to different brokers
     Segment:
         Broker stores the messages as they come in memory / page cache, then flushes them to a physical file 
         Portion of a Partition
@@ -92,11 +93,22 @@ Topic, Partitions, Segments
         E.g. 4 brokers and 3 replicated partitions = replication factor 3 = 1 leader + 2 followers
     Producer Basics
         Producer writes Data as Messages to the Kafka cluster
-        Any language
+        Any language; but Java is native lang of Kafka, there are wrappers for other langs
         Command Line Producer Tool
-    Load Balancing and Semantics
+    Load Balancing and Semantic Partitioning
+        Message has no key, round robin partition assignment
+        If order is important, order by key, hash by key which will write to same partition, then will be strictly ordered
+    Consumer Basics
+        Pull messages from Topics
+        New inflowing messages are auto-retrieved
+        Consumer offset: keeps track of last message read, stored in special topic in cluster
+    Distributed Consumption
+        Each topic can have multiple consumers
+    Scaleable Data Pipeline: Pg 62
+Lab 2
 
-    
+Mod 4: How Kafka works
+
 
 
 
