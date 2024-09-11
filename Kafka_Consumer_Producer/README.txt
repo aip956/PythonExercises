@@ -6,30 +6,21 @@ Start/build the container:
 docker-compose up -d
 Start the app:
 uvicorn main:app --reload
+uvicorn app.main:app --reload (if in the app dir)
 
 Access FastAPI Swagger:
 http://127.0.0.1:8000/docs
 http://localhost:8000/docs
 
-#### Post a message:
-topic: feeling_ill
-message: Guest has stomach ache after eating 5 pieces of cake
-- Should return code 200
-- Alternatively, can start the servers (docker-compose up -d) and the app (uvicorn main:app --reload)
--- Then run data script to auto-send data:
-python3 data.py
+Post a message:
+topic: person_fell
+message: Oh dang, mom's on her butt
+Should return code 200
+Get requests for Security, Waiters should show this entry
 
 
-Get the consumed messages:
-Get, execute
-{
-  "messages": [
-    {
-      "topic": "my_topic",
-      "message": "Hello Kafka!"
-    }
-  ]
-}
+
+
 
 Stop process in foreground:
 Control-C 
@@ -38,15 +29,22 @@ docker-compose stop
 Remove containers:
 docker-compose down
 
-git checkout main
-git pull
-git checkout -b anthea/subject
+in eng4 repo; just once
+git branch --set-upstream-to=origin/<remote_branch_name> <local_branch_name>
 
-Make a branch
-Commit
 
-go back to a git version:
-commit latest version 
-git checkout {id}
-id: 340049a
-340049a4fded8ebf23dd3a70f83bd731fdbc5dd8
+git checkout main (to make sure I'm in main)
+Make a branch:
+git pull (most up to date files)
+git checkout -b anthea/subject (creates the branch)
+
+In branch:
+git add .
+git commit -m "message"
+git push 
+
+pull request (pull from my branch to main):
+git merge (harder; can do in gui)
+
+sorting/streams in topics of events
+meet on monday
