@@ -108,6 +108,7 @@ Topic, Partitions, Segments
 Lab 2
 
 Mod 4: How Kafka works
+    Adding new stuff here 
 
 
 
