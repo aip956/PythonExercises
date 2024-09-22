@@ -8,7 +8,7 @@ Install dependencies:
 Verify link:
     In terminal, curl -X GET https://bored-api.appbrewery.com/random
     Or in browser, https://bored-api.appbrewery.com/random
-    
+
 
 
 
