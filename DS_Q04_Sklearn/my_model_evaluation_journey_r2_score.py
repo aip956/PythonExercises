@@ -1,6 +1,6 @@
 import pandas as pd
 from io import StringIO
-from sklearn.metrics import r2_score 
+
 
 # def my_model_evaluation_journey_r2_score(true_data_str, pred_data_str):
 #     # Split the data into true and predicted data
@@ -34,8 +34,9 @@ pred_data = """robot_model_name,nbr_pieces_head,nbr_pieces_arms,nbr_pieces_legs,
 # my_model_evaluation_journey_r2_score(true_data, pred_data)
 
 def my_model_evaluation_journey_r2_score(true_data_str, pred_data_str):
-    df1 = pd.read_csv(true_data_str)
-    df2 = pd.read_csv(pred_data_str)
+    # Convert strings to DataFrames
+    df1 = pd.read_csv(StringIO(true_data_str))
+    df2 = pd.read_csv(StringIO(pred_data_str))
     df1 = df1.drop("robot_model_name", axis="columns")
     df2 = df2.drop("robot_model_name", axis="columns")
     # print(sklearn.metrics.r2_score(df1.iloc[:df1.shape[0]], df2.iloc[:df2.shape[0]]))
