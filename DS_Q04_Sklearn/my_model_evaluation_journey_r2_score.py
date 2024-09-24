@@ -37,10 +37,23 @@ def my_model_evaluation_journey_r2_score(true_data_str, pred_data_str):
     # Convert strings to DataFrames
     df1 = pd.read_csv(StringIO(true_data_str))
     df2 = pd.read_csv(StringIO(pred_data_str))
+
+    # Drop the robot_model_name column
     df1 = df1.drop("robot_model_name", axis="columns")
     df2 = df2.drop("robot_model_name", axis="columns")
-    # print(sklearn.metrics.r2_score(df1.iloc[:df1.shape[0]], df2.iloc[:df2.shape[0]]))
-    return sklearn.metrics.r2_score(df1.iloc[:df1.shape[0]], df2.iloc[:df2.shape[0]])
+
+    # Make the DFs the same length
+    min_len = min(df1.shape[0], df2.shape[0]) # Get the minimum length
+    df1 = df1.iloc[:min_len] # Trim the first DF
+    df2 = df2.iloc[:min_len] # Trim the second DF
+
+    # Calculate the R-squared value
+    ss_res = ((df1 - df2) ** 2).sum().sum() # Calculate the sum of squared residuals
+    ss_tot = ((df1 - df1.mean()) ** 2).sum().sum() # Calculate the total sum of squares 
+    r2 = 1 - (ss_res / ss_tot) # Calculate the R-squared value
+    # print("r2: ", r2)
+    return r2
+
 
 
 true_data = """robot_model_name,nbr_pieces_head,nbr_pieces_arms,nbr_pieces_legs,nbr_pieces_body\nda Vinci Surgical System,4377,47000,97969,37320\nKITT,90043,73282,18868,45540\nThe Tachikomas,2114,68111,75162,36340\nToyota violin-playing,63730,85704,78717,57020\nGERTY,81519,26677,65519,43420\nMega Man,22714,9740,73137,26380\nRock \u2018Em Sock \u2018Em Robots,87886,67925,58101,53460\nDoraemon,16788,85783,86233,47200\nAwesom-O,7448,54163,33401,23740\nHK-47,46131,58449,92296,49200\nED-209,77228,10734,54945,35720\nBeer-Fetching Robot,59627,81878,23861,41340\nBishop,96414,66998,4115,41880\nThe Energizer Bunny,68804,14932,37880,30400\nH.E.L.P.eR.,78159,8060,63274,37360\nClank,11578,84323,86292,45540\n"""
