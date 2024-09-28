@@ -15,11 +15,9 @@ def my_model_evaluation_journey_r2_score(true_data_str, pred_data_str):
     df_pred = df_pred.drop("robot_model_name", axis="columns")
 
     # Find the common columns between true and predicted data
-    # Use slicing
-
     common_columns = df_true.columns.intersection(df_pred.columns)
     if common_columns.empty:
-        print("No common columns found")
+        # print("No common columns found")
         return False
     
     # Select only the common columns
