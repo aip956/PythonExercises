@@ -10,3 +10,11 @@ python3 -m pip install --upgrade pip
 
 install scikit-learn:
 pip install scikit-learn
+
+
+r2
+Mean Squared Error
+Mean Absolute Error
+Confusion Matrix
+Accuracy Score
+Recall Score

@@ -24,6 +24,7 @@ def my_model_evaluation_journey_accuracy_score(param_1, param_2):
 '''
 
 from sklearn.metrics import accuracy_score
+
 def my_model_evaluation_journey_accuracy_score(true_data_list, pred_data_list):
     try:
         # Do both lists have the same length?
