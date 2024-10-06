@@ -9,5 +9,30 @@ You will receive two arguments: true data and predicted data. Both of them are i
 
 Average = None
 
+:type  param_1: {Integer[]}
+
+:type  param_2: {Integer[]}
+:rtype: boolean
+
+def my_model_evaluation_journey_recall_score(param_1, param_2):
 
 """
+
+from sklearn.metrics import recall_score
+
+def my_model_evaluation_journey_recall_score(param_1, param_3):
+    try:
+        # Do both lists have the same length?
+        if len(param_1) != len(param_3):
+            return False
+        rs = recall_score(param_1, param_3, average=None)
+        print("rs: ", rs)
+        return True
+    except Exception as e:
+        print("An error occurred: ", e)
+        return False
+    
+param_1 = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
+param_2 = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
+result = my_model_evaluation_journey_recall_score(param_1, param_2) # True
+print("result: ", result)
