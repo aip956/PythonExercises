@@ -18,3 +18,11 @@ def generate_command_from_llama(user_input):
     result = nlp_model(prompt_text)
     return result[0]["generated_text"]
 
+def safe_command_check(command):
+    """Basic check to ensure that the command is safe"""
+    dangerous_commands = ["rm -rf", "dd if=", "del", ":(){ :|:& };:", "format"]    
+    for danger in dangerous_commands:
+        if danger in command:
+            return False
+    return True
+
