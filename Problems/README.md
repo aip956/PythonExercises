@@ -20,4 +20,4 @@ Tree
 - Full binary: Every node has 0 - 2 children
 - Complete binary: All levels are completely filled except possibly the last level and all nodes in the last level are as far left as possible (usage in heap)
 - Perfect binary: All internals nodes have 2 children and all leaf nodes have the same level. Used to estimate time complexity for combinatorial problems
-- Balanced Binary:
+- Balanced Binary: height difference of the left and right subtree of the node is not more than 1 (red-black trees, AVL)
