@@ -1,22 +1,34 @@
 import subprocess
-from transformers import pipeline
+import requests
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 
-# Load the llama model
-nlp_model = pipeline("text-generation", model="gpt2")
 
-# A dictionary mapping intents to commands  
+
+def generate_command_from_llama(user_input):
+    api_url = "http://localhost:11434/api/generate"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "llama3.2:latest",
+        "prompt": user_input,
+        "max_tokens": 200
+    }
+    response = requests.post(api_url, headers=headers, json=data)   
+    if response.status_code != 200:
+        return "Error: Unable to generate command"
+    else:
+        return response.json().get("output", "No command suggestions")
+    
+
+# # A dictionary mapping intents to commands  
 commands = {
     "find a file": "find . -name '*.txt'",
     "list files": "ls -la",
     "show disk usage": "du -sh *",
 }
 
-def generate_command_from_llama(user_input):
-    prompt_text = f"User: {user_input}\nLlama: "
-    result = nlp_model(prompt_text)
-    return result[0]["generated_text"]
 
 def safe_command_check(command):
     """Basic check to ensure that the command is safe"""
@@ -52,4 +64,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-    
