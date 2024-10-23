@@ -15,11 +15,14 @@ def generate_command_from_llama(user_input):
         "prompt": user_input,
         "max_tokens": 200
     }
-    response = requests.post(api_url, headers=headers, json=data)   
+    response = requests.post(api_url, headers=headers, json=data) 
+    print("Raw response: ", response.text)  
     if response.status_code != 200:
         return "Error: Unable to generate command"
-    else:
-        return response.json().get("output", "No command suggestions")
+    try:
+        response.json().get("output", "No command suggestions")
+    except requests.exceptions.JSONDecodeError:
+        return "Error: Unable to parse JSON response"
     
 
 # # A dictionary mapping intents to commands  
