@@ -27,4 +27,11 @@ Tree
 
 Queue
 Like a line; first in, first out
-- Priority Queue: 
+- Priority Queue: process according to priority; based on priority heap
+- Queue<Double> queue = new LinkedList<>(); will display as entered
+- Queue<Double> queue = new PriorityQueue<>(); will order
+- Queue<Double> queue = new PriorityQueue<>(Collections.reverse)Order()); will order descending
+- queue.offer(2.0) will add to queue
+- while(!queue.isEmpty()) {
+  System.out.println(queue.poll())}; will print queue
+  
