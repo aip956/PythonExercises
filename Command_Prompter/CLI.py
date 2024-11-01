@@ -3,6 +3,7 @@ import requests
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 import json
+import re
 
 
 
@@ -13,20 +14,46 @@ def generate_command_from_llama(user_input):
     }
     data = {
         "model": "llama3.2:latest",
-        "prompt": user_input,
-        "max_tokens": 200
+        "prompt": (
+            "You are an assistant that generates Linux terminal commands based on descriptions.\n"
+            "Description: list all files in the current directory\n"
+            "Command: ls\n"
+            "Description: show hidden files in the current directory\n"
+            "Command: ls -a\n"
+            "Description: " + user_input + "\nCommand:"
+        ),
+        "max_tokens": 50
     }
-    response = requests.post(api_url, headers=headers, json=data) 
-    print("Raw response: ", response.text)  
+    response = requests.post(api_url, headers=headers, json=data, stream=True) 
+    # print("20Raw response: ", response.text)  
     if response.status_code != 200:
         return "Error: Unable to generate command"
-    try:
-        response.json().get("output", "No command suggestions")
-    except requests.exceptions.JSONDecodeError:
-        return "Error: Unable to parse JSON response"
-    
+    # try:
+    #     response.json().get("output", "No command suggestions")
+    # except requests.exceptions.JSONDecodeError:
+    #     return "Error: Unable to parse JSON response"
+    generated_text = ""
+    for line in response.iter_lines(decode_unicode=True):
+        if line:
+            try:
+                json_data = json.loads(line)
+                generated_text += json_data.get("response", "")
+            except json.JSONDecodeError:
+                # Ignore malformed JSON parts if any
+                continue
+    # Post-process the generated text to extract commands
+    generated_text = generated_text.strip()
+    command_lines = generated_text.splitlines()
+    commands = []
 
-# # A dictionary mapping intents to commands  
+    for line in command_lines:
+        #Check to see if a line looks like a shell command
+        if re.match(r'^[a-zA-Z]' line):
+            commands.append(line.strip())
+
+    return generated_text.strip() if generated_text else "No command suggestions"
+
+# A dictionary mapping intents to commands  
 commands = {
     "find a file": "find . -name '*.txt'",
     "list files": "ls -la",
@@ -45,7 +72,7 @@ def safe_command_check(command):
 def main():
     while True:
         # Step 1: Get user input
-        user_input = prompt("Describe what you wan to do: ")
+        user_input = prompt("Describe what you want to do: ")
 
         # Step 2: Generate a command from the user input
         suggested_command = generate_command_from_llama(user_input)
