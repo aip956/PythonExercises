@@ -2,6 +2,7 @@ import subprocess
 import requests
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
+import json
 
 
 
