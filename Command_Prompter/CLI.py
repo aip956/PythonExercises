@@ -25,7 +25,7 @@ def generate_command_from_llama(user_input):
         "max_tokens": 50
     }
     response = requests.post(api_url, headers=headers, json=data, stream=True) 
-    # print("20Raw response: ", response.text)  
+    print("20Raw response: ", response.text)  
     if response.status_code != 200:
         return "Error: Unable to generate command"
     # try:
@@ -48,10 +48,10 @@ def generate_command_from_llama(user_input):
 
     for line in command_lines:
         #Check to see if a line looks like a shell command
-        if re.match(r'^[a-zA-Z]' line):
+        if re.match(r'^[a-zA-Z]', line):
             commands.append(line.strip())
 
-    return generated_text.strip() if generated_text else "No command suggestions"
+    return "\n".join(commands) if commands else "No command suggestions"
 
 # A dictionary mapping intents to commands  
 commands = {
