@@ -1,0 +1,101 @@
+product_id,product_name,weight,description,weight_kg
+1,gadget-b,3 lbs,"A compact gadget, easy to store and very efficient",1.360776
+2,Widget A,1.4 kg,A large-sized gadget offering high performance and,1.4
+3,Gadget B,3 lbs,nan,1.360776
+4,Gadget B,0.9 kg,A large-sized gadget offering high performance and,0.9
+5,Gadget B,3 lbs,A large-sized gadget offering high performance and,1.360776
+6,widget-a,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+7,Gadget B,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+8,Widget A Large,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+9,gadget-b,3 lbs,A large-sized gadget offering high performance and,1.360776
+10,Widget A,1.4 kg,"An advanced widget with extended features, ideal f",1.4
+11,Widget A,nan,"An advanced widget with extended features, ideal f",1.1804568333333336
+12,gadget-b,0.9 kg,nan,0.9
+13,Widget A Large,3 lbs,A large-sized gadget offering high performance and,1.360776
+14,widget-a,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+15,Widget A,0.9 kg,"An advanced widget with extended features, ideal f",0.9
+16,widget-a,3 lbs,A large-sized gadget offering high performance and,1.360776
+17,widget-a,0.9 kg,"A compact gadget, easy to store and very efficient",0.9
+18,Widget A,nan,nan,1.1804568333333336
+19,widget-a,3 lbs,"An advanced widget with extended features, ideal f",1.360776
+20,gadget-b,1.4 kg,"An advanced widget with extended features, ideal f",1.4
+21,Gadget B,2 lbs,A very useful widget that performs a variety of fu,0.907184
+22,Widget A,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+23,Gadget B,3 lbs,A very useful widget that performs a variety of fu,1.360776
+24,Widget A,1.4 kg,nan,1.4
+25,Widget A Large,2 lbs,A very useful widget that performs a variety of fu,0.907184
+26,Gadget B,2 lbs,A large-sized gadget offering high performance and,0.907184
+27,Widget A,2 lbs,"An advanced widget with extended features, ideal f",0.907184
+28,widget-a,1.4 kg,A very useful widget that performs a variety of fu,1.4
+29,Gadget B,3 lbs,A very useful widget that performs a variety of fu,1.360776
+30,Gadget B,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+31,Gadget B,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+32,Widget A,nan,A very useful widget that performs a variety of fu,1.1804568333333336
+33,widget-a,2 lbs,A large-sized gadget offering high performance and,0.907184
+34,widget-a,2 lbs,A very useful widget that performs a variety of fu,0.907184
+35,widget-a,3 lbs,A large-sized gadget offering high performance and,1.360776
+36,Widget A,1.4 kg,A very useful widget that performs a variety of fu,1.4
+37,Widget A Large,3 lbs,nan,1.360776
+38,gadget-b,1.4 kg,nan,1.4
+39,Gadget B,2 lbs,A very useful widget that performs a variety of fu,0.907184
+40,Gadget B,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+41,Widget A Large,2 lbs,A large-sized gadget offering high performance and,0.907184
+42,gadget-b,1.4 kg,nan,1.4
+43,Widget A Large,2 lbs,A large-sized gadget offering high performance and,0.907184
+44,Widget A,3 lbs,"An advanced widget with extended features, ideal f",1.360776
+45,Widget A,3 lbs,"A compact gadget, easy to store and very efficient",1.360776
+46,gadget-b,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+47,Widget A,nan,"An advanced widget with extended features, ideal f",1.1804568333333336
+48,gadget-b,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+49,widget-a,nan,nan,1.1804568333333336
+50,gadget-b,2 lbs,"An advanced widget with extended features, ideal f",0.907184
+51,widget-a,nan,nan,1.1804568333333336
+52,Widget A Large,1.4 kg,nan,1.4
+53,Widget A Large,1.4 kg,"An advanced widget with extended features, ideal f",1.4
+54,Widget A,nan,A large-sized gadget offering high performance and,1.1804568333333336
+55,widget-a,0.9 kg,A large-sized gadget offering high performance and,0.9
+56,widget-a,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+57,widget-a,2 lbs,"An advanced widget with extended features, ideal f",0.907184
+58,widget-a,2 lbs,nan,0.907184
+59,Gadget B,2 lbs,A large-sized gadget offering high performance and,0.907184
+60,Gadget B,0.9 kg,A large-sized gadget offering high performance and,0.9
+61,Widget A Large,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+62,Gadget B,nan,"A compact gadget, easy to store and very efficient",1.1804568333333336
+63,Widget A,0.9 kg,"A compact gadget, easy to store and very efficient",0.9
+64,Gadget B,1.4 kg,"A compact gadget, easy to store and very efficient",1.4
+65,gadget-b,0.9 kg,"An advanced widget with extended features, ideal f",0.9
+66,widget-a,2 lbs,A very useful widget that performs a variety of fu,0.907184
+67,Widget A Large,2 lbs,A large-sized gadget offering high performance and,0.907184
+68,gadget-b,nan,"A compact gadget, easy to store and very efficient",1.1804568333333336
+69,Gadget B,1.4 kg,nan,1.4
+70,gadget-b,1.4 kg,A large-sized gadget offering high performance and,1.4
+71,gadget-b,0.9 kg,"A compact gadget, easy to store and very efficient",0.9
+72,gadget-b,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+73,Gadget B,2 lbs,"An advanced widget with extended features, ideal f",0.907184
+74,gadget-b,0.9 kg,A very useful widget that performs a variety of fu,0.9
+75,gadget-b,3 lbs,A very useful widget that performs a variety of fu,1.360776
+76,gadget-b,2 lbs,"An advanced widget with extended features, ideal f",0.907184
+77,Widget A,1.4 kg,nan,1.4
+78,gadget-b,0.9 kg,A very useful widget that performs a variety of fu,0.9
+79,Gadget B,0.9 kg,nan,0.9
+80,Widget A Large,nan,A large-sized gadget offering high performance and,1.1804568333333336
+81,Widget A,2 lbs,A large-sized gadget offering high performance and,0.907184
+82,widget-a,2 lbs,A very useful widget that performs a variety of fu,0.907184
+83,widget-a,1.4 kg,A very useful widget that performs a variety of fu,1.4
+84,Gadget B,3 lbs,A large-sized gadget offering high performance and,1.360776
+85,Widget A,1.4 kg,A large-sized gadget offering high performance and,1.4
+86,Widget A,3 lbs,A very useful widget that performs a variety of fu,1.360776
+87,widget-a,nan,A large-sized gadget offering high performance and,1.1804568333333336
+88,Widget A Large,1.4 kg,A very useful widget that performs a variety of fu,1.4
+89,gadget-b,1.4 kg,"An advanced widget with extended features, ideal f",1.4
+90,Widget A Large,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+91,Widget A,1.4 kg,A very useful widget that performs a variety of fu,1.4
+92,Gadget B,2 lbs,nan,0.907184
+93,Widget A Large,nan,A very useful widget that performs a variety of fu,1.1804568333333336
+94,Widget A Large,3 lbs,A large-sized gadget offering high performance and,1.360776
+95,Widget A,1.4 kg,nan,1.4
+96,widget-a,nan,nan,1.1804568333333336
+97,Widget A,2 lbs,"A compact gadget, easy to store and very efficient",0.907184
+98,Widget A Large,3 lbs,A very useful widget that performs a variety of fu,1.360776
+99,Widget A Large,1.4 kg,"An advanced widget with extended features, ideal f",1.4
+100,Gadget B,1.4 kg,nan,1.4
