@@ -47,16 +47,17 @@ def csv_to_sql(csv_content, database, table_name):
 
     # Extract column names from the first row
     columns = next(csv_reader)
+    print("Columns:", columns)
     placeholders = ', '.join(['?' for _ in columns]) # Creates placholders for INSERT
 
     # Create the table dynamically
-    column_definitions = ', '.join([f"{col} TEXT" for col in columns])
+    column_definitions = ', '.join([f'"{col}" TEXT' for col in columns])
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({column_definitions})")
 
     # Insert rows
     for row in csv_reader:
-        cursor.execute(f"INSERT INTO {table_name} VALUES {placeholders}", row)
-    
+        cursor.execute(f"INSERT INTO {table_name} VALUES ({placeholders})", row)
+
     # Commit and close the connection 
     conn.commit()
     conn.close()
