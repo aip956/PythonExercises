@@ -1,6 +1,7 @@
 # My Mr Clean
 ## DESCRIPTION
- My Mr. Clean is a python utility for extracting textual information from Wikipedia articles via API, determining the most common words, and plotting their frequencies
+This is a Python-based data pipeline to extract, clean, and analyze unstructured text data via API, applying techniques similar to financial data engineering workflows. It uses Pandas and Matplotlib for visualization, demonstrating skills in data preprocessing and trend analysis applicable to quantitative finance..
+ 
 
 ## DEPENDENCIES
 Python 3.6 or higher
