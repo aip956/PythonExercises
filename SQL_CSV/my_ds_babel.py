@@ -18,8 +18,8 @@ def sql_to_csv(database, table_name):
 
     # Fetch data from the table
     # print the number of rows
-    cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
-    row_count = cursor.fetchone()[0]
+    # cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+    # row_count = cursor.fetchone()[0]
     # print("row_count: ", row_count)
 
     cursor.execute(f"SELECT * FROM {table_name}")
@@ -31,7 +31,7 @@ def sql_to_csv(database, table_name):
 
     # Write to CSV format
     output = io.StringIO()
-    csv_writer = csv.writer(output)
+    csv_writer = csv.writer(output, lineterminator="\n") #Prevent an extra \r
     csv_writer.writerow(columns) # Write header
     csv_writer.writerows(rows)     # Write data rows
 
