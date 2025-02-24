@@ -1,6 +1,9 @@
 # Welcome to the SQL-CSV converter
 
 ## Task
+This is a Python-based ETL pipeline to extract, transform, and load structured data between SQL databases and CSV files. Designed dynamic schema handling, automated data integrity validation, and optimized data portability—demonstrating skills applicable to financial data engineering and quantitative analytics.
+
+
 The task is to bridge the gap between different data formats by converting data between SQL and CSV. This involves:
 - SQL to CSV: Extracting data from an SQLite database and transforming it into a well-formatted CSV file
 - CSV to SQL: Taking data from a CSV file and importing it into an SQLite database, dynamically creating the table if necessary
