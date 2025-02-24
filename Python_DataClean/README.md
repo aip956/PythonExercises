@@ -1,6 +1,6 @@
 # My Mr Clean
 ## DESCRIPTION
-This is a Python-based data pipeline to extract, clean, and analyze unstructured text data via API, applying techniques similar to financial data engineering workflows. It uses Pandas and Matplotlib for visualization, demonstrating skills in data preprocessing and trend analysis applicable to quantitative finance..
+This is a Python-based data pipeline to extract, clean, and analyze unstructured text data via API, applying techniques similar to financial data engineering workflows. It uses Pandas and Matplotlib for visualization, demonstrating skills in data preprocessing and trend analysis applicable to quantitative finance.
  
 
 ## DEPENDENCIES

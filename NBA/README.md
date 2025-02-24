@@ -1,5 +1,5 @@
 # Welcome to My Nba Game Analysis
-This is a Python-based data processing pipeline to extract and analyze structured event data, applying techniques similar to financial market analytics. Used Regex for pattern recognition, computed key performance metrics, and generated structured tabular reports—demonstrating skills in data transformation, quantitative analysis, and financial data engineering.
+This is a Python-based data processing pipeline to extract and analyze structured event data. Used Regex for pattern recognition, computed key performance metrics, and generated structured tabular reports—demonstrating skills in data transformation, quantitative analysis, and financial data engineering.
 
 Given an NBA game's statistics, my mission was to calculate and display the statistics per player on the home and away teams.
 
