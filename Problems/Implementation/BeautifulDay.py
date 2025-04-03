@@ -13,6 +13,7 @@ def beautiful_days(i, j, k):
         rev = reverse(a)
         if abs(a - rev) % k == 0:
             count += 1
+    print (f"count: {count}")
     return count
 
 if __name__ == "__main__":
