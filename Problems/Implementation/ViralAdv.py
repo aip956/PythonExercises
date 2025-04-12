@@ -1,11 +1,25 @@
 
 def viralAdvertising(n):
-    
+    Share = 5
+    Likes = 0
+    CummulLikes = 0
+
+    for i in range(1, n+1):
+        Likes = Share // 2
+        CummulLikes += Likes
+        Share = 3 * Likes
+        # print(f"i: ", i)
+        # print(f"Likes: ", Likes)
+        # print(f"CummulLikes: ", CummulLikes)
+        # print(f"Share: ", Share)
+    return CummulLikes
+
+
     # Write your code here
 
 if __name__ == '__main__':
     n = 5
-    viralAdvertising(n)
+    print(viralAdvertising(n))
 
 
 
