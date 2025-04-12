@@ -1,0 +1,186 @@
+Hamiltonian Path Coding Challenge
+Goal
+By the end of this challenge, you should be able to:
+Define a Hamiltonian Path.
+Identify situations where this algorithm is the best solution.
+Implement multiple approaches.
+Analyze time complexity.
+Adapt your approach based on input size.
+
+Step 1: Understand the Problem
+Question 1: Explain in your own words
+What is a Hamiltonian Path?
+How does it differ from an Eulerian path?
+When would a Hamiltonian path be useful in a competition?
+Write your answers before moving on.
+
+Step 2: Write a Brute-Force Solution
+Before optimizing, implement the most basic solution.
+Task 1: Generate all possible paths
+Write a function that generates all possible orders of visiting nodes.
+Write another function that checks if a given order is a Hamiltonian path.
+💡 Hint: Use itertools.permutations.
+# TODO: Write a function to generate all possible orders of nodes
+def generate_permutations(n):
+    pass  # Use itertools.permutations
+
+# TODO: Write a function that checks if a given order is a valid Hamiltonian Path
+def is_valid_path(graph, path):
+    pass  # Loop through the path and check if edges exist
+
+# TODO: Implement the brute-force Hamiltonian Path function
+def hamiltonian_path_brute_force(graph):
+    pass  # Use generate_permutations and is_valid_path
+
+# Test Case
+islands = [
+    [0, 1, 0, 1, 0],
+    [1, 0, 1, 1, 1],
+    [0, 1, 0, 0, 1],
+    [1, 1, 0, 0, 1],
+    [0, 1, 1, 1, 0]
+]
+
+print(hamiltonian_path_brute_force(islands))  # Expected: A valid Hamiltonian path or []
+
+Question 2: Time Complexity
+What is the time complexity of this solution?
+What is the maximum N this could handle in a competition setting?
+
+Step 3: Implement Backtracking
+Brute-force is slow. Let’s improve it.
+Task 2: Implement a Recursive Backtracking Solution
+Start from any node.
+Recursively build the path by adding unvisited neighbors.
+If you reach a valid Hamiltonian path, return it.
+If you hit a dead end, backtrack.
+💡 Hint: Use a visited array to track which nodes have been used.
+# TODO: Write a recursive function to find a Hamiltonian Path using backtracking
+def hamiltonian_path_backtracking(graph):
+    pass  # Implement backtracking logic
+
+# Test Case
+print(hamiltonian_path_backtracking(islands))  # Expected: A valid Hamiltonian path or []
+
+Question 3: Compare to Brute Force
+How does this approach improve performance?
+What is its worst-case time complexity?
+
+Step 4: Implement an Optimized Solution for Large Graphs
+Backtracking is better but still slow for large inputs. For N ≥ 20, bitmasking + DP is a better approach.
+Task 3: Write a DP-based Hamiltonian Path Algorithm
+Use bitmasking to track visited nodes.
+Store computed results to avoid recalculations.
+💡 Hint: The state is (visited_mask, last_node), where:
+visited_mask is a bitmask representing visited nodes.
+last_node is the current node.
+# TODO: Implement a DP solution with bitmasking for large graphs
+def hamiltonian_path_dp(graph):
+    pass  # Use a table to store previously computed states
+
+# Test Case
+print(hamiltonian_path_dp(islands))  # Expected: A valid Hamiltonian path or []
+
+Question 4: When Should You Use DP?
+How does this improve performance?
+What is its time complexity?
+Would you use this approach for N = 50?
+
+Step 5: Adapt to Competitive Programming
+In a coding competition, choosing the best approach is key.
+Task 4: Write an Adaptive Function
+If N < 8, use brute-force.
+If 8 ≤ N < 20, use backtracking.
+If N ≥ 20, use DP.
+# TODO: Write a function that selects the best approach based on N
+def adaptive_hamiltonian_path(graph):
+    pass  # Decide which algorithm to use
+
+# Test Case
+print(adaptive_hamiltonian_path(islands))  # Expected: A valid Hamiltonian path or []
+
+Question 5: Strategy Selection
+Why not always use the most optimized solution?
+In a competition, how would you determine which approach to use quickly?
+
+Step 6: Final Challenge
+Write a function that:
+Automatically selects the best algorithm.
+Handles disconnected graphs.
+Runs efficiently on different graph sizes.
+Test it on at least three different graphs.
+
+Summary
+ Defined a Hamiltonian Path.
+ Implemented brute-force, backtracking, and DP approaches.
+ Learned when to use each method in a competition.
+
+
+
+
+Solution:
+
+def is_valid(v, pos, path, islands):
+    """Check if vertex v can be added to the current path."""
+    # Check if there's an edge from the previous vertex in the path to v.
+    if islands[path[pos - 1]][v] == 0:
+        return False
+    # Ensure vertex v hasn't been visited already.
+    if v in path:
+        return False
+    return True
+
+def hamiltonian_path_util(islands, path, pos):
+    """Recursive utility function to build the Hamiltonian path."""
+    # If all vertices are included in the path, return True.
+    if pos == len(islands):
+        return True
+    # Try to add each vertex to the path.
+    for v in range(1, len(islands)):
+        if is_valid(v, pos, path, islands):
+            path[pos] = v  # Add vertex v to the path.
+            # Recur to find the rest of the path.
+            if hamiltonian_path_util(islands, path, pos + 1):
+                return True
+            # Backtrack if the current choice didn't work.
+            path[pos] = -1
+    return False
+
+def hamiltonian_path(islands):
+    """Find a Hamiltonian path starting from the first vertex."""
+    path = [-1] * len(islands)  # Initialize the path with -1.
+    path[0] = 0  # Start from the first vertex (island 0).
+    
+    # Start the recursive search.
+    if not hamiltonian_path_util(islands, path, 1):
+        return []  # No valid Hamiltonian path found.
+    
+    return path
+
+
+
+How to Test:
+Use the example provided or create your own test cases.
+Example Usage:
+
+islands = [
+    [0, 1, 0, 1, 0],
+    [1, 0, 1, 1, 1],
+    [0, 1, 0, 0, 1],
+    [1, 1, 0, 0, 1],
+    [0, 1, 1, 1, 0]
+]
+print(hamiltonian_path(islands))  # Output: [0, 1, 2, 4, 3] or other valid path
+
+
+
+
+
+Explanation:
+is_valid: Ensures that the vertex can be added to the path.
+hamiltonian_path_util: Recursively builds the path, backtracking when necessary.
+hamiltonian_path: Initializes the path and starts the search.
+
+
+This challenge will test your ability to implement recursive algorithms, backtracking, and graph traversal.
+
